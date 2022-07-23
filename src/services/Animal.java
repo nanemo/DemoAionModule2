@@ -44,4 +44,5 @@ public abstract class Animal<T> {
 
     public abstract void die();
 
+
 }

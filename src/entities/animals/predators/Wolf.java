@@ -20,6 +20,7 @@ public class Wolf extends Predators {
         } else {
             return animal;
         }
+
     }
 
     @Override

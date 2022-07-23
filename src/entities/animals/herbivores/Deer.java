@@ -20,6 +20,7 @@ public class Deer extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

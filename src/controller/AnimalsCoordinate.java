@@ -10,5 +10,4 @@ public class AnimalsCoordinate<T> {
         return map;
     }
 
-
 }

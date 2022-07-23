@@ -20,6 +20,7 @@ public class Rabbit extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

@@ -40,4 +40,5 @@ public class Buffalo extends Herbivores {
     public void die() {
 
     }
+
 }

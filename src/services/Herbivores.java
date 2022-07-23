@@ -6,4 +6,5 @@ public abstract class Herbivores extends Animal {
         super(NAME, SPEED, SATIATE, weight);
     }
 
+
 }

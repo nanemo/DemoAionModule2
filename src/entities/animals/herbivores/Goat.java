@@ -19,6 +19,7 @@ public class Goat extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

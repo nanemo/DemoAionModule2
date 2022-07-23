@@ -19,6 +19,7 @@ public class Duck extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

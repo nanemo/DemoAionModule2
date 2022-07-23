@@ -19,6 +19,7 @@ public class Fox extends Predators {
         } else {
             return animal;
         }
+
     }
 
     @Override

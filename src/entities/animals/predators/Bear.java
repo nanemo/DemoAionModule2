@@ -20,6 +20,7 @@ public class Bear extends Predators {
         } else {
             return animal;
         }
+
     }
 
     @Override

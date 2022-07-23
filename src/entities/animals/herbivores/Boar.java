@@ -22,7 +22,7 @@ public class Boar extends Herbivores {
     }
 
     public void setCoordinates() {
-        coordinateX = animalsCoordinate.setPosition();
+//        coordinateX = animalsCoordinate.setPosition();
     }
 
     public int getCoordinateX() {

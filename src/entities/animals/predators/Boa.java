@@ -20,6 +20,7 @@ public class Boa extends Predators {
             return animal;
         }
     }
+
     @Override
     public void eat() {
 

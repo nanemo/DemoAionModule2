@@ -20,6 +20,7 @@ public class Horse extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

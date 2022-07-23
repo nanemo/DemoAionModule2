@@ -20,6 +20,7 @@ public class Mouse extends Herbivores {
         } else {
             return animal;
         }
+
     }
 
     @Override

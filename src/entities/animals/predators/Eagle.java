@@ -19,6 +19,7 @@ public class Eagle extends Predators {
         } else {
             return animal;
         }
+
     }
 
     @Override
