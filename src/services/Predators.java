@@ -2,8 +2,7 @@ package services;
 
 public abstract class Predators<T> extends Animal {
 
-    public Predators(String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(NAME, SPEED, SATIATE, weight);
+    public Predators(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
+        super(coordinateX, coordinateY, NAME, SPEED, SATIATE, weight);
     }
-
 }

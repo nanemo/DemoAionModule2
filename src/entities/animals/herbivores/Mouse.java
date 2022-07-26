@@ -1,45 +1,37 @@
-package entities.animals.herbivores;
-
-import services.Animal;
-import services.Herbivores;
-
-public class Mouse extends Herbivores {
-
-    private int coordinateX;
-    private int coordinateY;
-    private static Animal animal;
-
-    private Mouse(String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(NAME, SPEED, SATIATE, weight);
-    }
-
-    public static Animal getInstance() {
-        if (animal == null) {
-            animal = new Mouse("Mouse", 1, 0.01, 0.05);
-            return animal;
-        } else {
-            return animal;
-        }
-
-    }
-
-    @Override
-    public void eat() {
-
-    }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void bread() {
-
-    }
-
-    @Override
-    public void die() {
-
-    }
-}
+//package entities.animals.herbivores;
+//
+//import services.Animal;
+//import services.Herbivores;
+//
+//public class Mouse extends Herbivores {
+//
+//    private int coordinateX;
+//    private int coordinateY;
+//    private static Animal animal;
+//
+//    public Mouse(String NAME, Integer SPEED, Double SATIATE, Double weight, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1) {
+//        super(NAME, SPEED, SATIATE, weight, coordinateX, coordinateY);
+//        this.coordinateX = coordinateX1;
+//        this.coordinateY = coordinateY1;
+//    }
+//
+//    @Override
+//    public void eat() {
+//
+//    }
+//
+//    @Override
+//    public void move() {
+//
+//    }
+//
+//    @Override
+//    public void bread() {
+//
+//    }
+//
+//    @Override
+//    public void die() {
+//
+//    }
+//}

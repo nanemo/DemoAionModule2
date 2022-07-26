@@ -1,19 +1,13 @@
-package services;
+package entities.plants;
 
-public abstract class Animal {
+public class Plant {
     private int coordinateX;
     private int coordinateY;
-    private final String NAME;
-    private final Integer SPEED;
-    private final Double SATIATE;
     private Double weight;
 
-    public Animal(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
+    public Plant(int coordinateX, int coordinateY, Double weight) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
-        this.NAME = NAME;
-        this.SPEED = SPEED;
-        this.SATIATE = SATIATE;
         this.weight = weight;
     }
 
@@ -33,19 +27,7 @@ public abstract class Animal {
         this.coordinateY = coordinateY;
     }
 
-    public String getNAME() {
-        return NAME;
-    }
-
-    public Integer getSPEED() {
-        return SPEED;
-    }
-
-    public Double getSATIATE() {
-        return SATIATE;
-    }
-
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
@@ -53,22 +35,11 @@ public abstract class Animal {
         this.weight = weight;
     }
 
-    public abstract void move();
-
-    public abstract void moveDirection();
-
-    public abstract void bread();
-
-    public abstract void die();
-
     @Override
     public String toString() {
-        return "Animal{" +
+        return "Plant{" +
                "coordinateX=" + coordinateX +
                ", coordinateY=" + coordinateY +
-               ", NAME='" + NAME + '\'' +
-               ", SPEED=" + SPEED +
-               ", SATIATE=" + SATIATE +
                ", weight=" + weight +
                '}';
     }
