@@ -2,17 +2,17 @@ package entities;
 
 import entities.plants.Plant;
 import services.Animal;
+import services.Creature;
 import services.Herbivores;
 import services.Predators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Cell {
-    private List<Predators> predatorsList;
-    private List<Animal> herbivoresList;
-    private List<Plant> plantList;
+    private List<Creature> predatorsList;
+    private List<Creature> herbivoresList;
+    private List<Creature> plantList;
 
     public Cell() {
         predatorsList = new ArrayList<>();
@@ -30,39 +30,39 @@ public class Cell {
     }
 
     private void addHerbivores(Animal herbivores) {
-        herbivoresList.add((Animal) herbivores);
+        herbivoresList.add(herbivores);
     }
 
     private void addPredators(Animal herbivores) {
-        predatorsList.add((Predators) herbivores);
+        predatorsList.add(herbivores);
     }
 
     public void addPlants(Plant plants) {
-        plantList.add((Plant) plants);
+        plantList.add(plants);
     }
 
 
-    public List<Predators> getPredatorsList() {
+    public List<Creature> getPredatorsList() {
         return predatorsList;
     }
 
-    public void setPredatorsList(List<Predators> predatorsList) {
+    public void setPredatorsList(List<Creature> predatorsList) {
         this.predatorsList = predatorsList;
     }
 
-    public List<Animal> getHerbivoresList() {
+    public List<Creature> getHerbivoresList() {
         return herbivoresList;
     }
 
-    public void setHerbivoresList(List<Animal> herbivoresList) {
+    public void setHerbivoresList(List<Creature> herbivoresList) {
         this.herbivoresList = herbivoresList;
     }
 
-    public List<Plant> getPlantList() {
+    public List<Creature> getPlantList() {
         return plantList;
     }
 
-    public void setPlantList(List<Plant> plantList) {
+    public void setPlantList(List<Creature> plantList) {
         this.plantList = plantList;
     }
 

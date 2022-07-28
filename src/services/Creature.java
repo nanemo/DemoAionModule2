@@ -1,15 +1,19 @@
-package entities.plants;
+package services;
 
-import services.Creature;
-
-public class Plant extends Creature {
+public abstract class Creature {
     private int coordinateX;
     private int coordinateY;
+    private final String NAME;
+    private final Integer SPEED;
+    private final Double SATIATE;
     private Double weight;
 
-    public Plant(int coordinateX, int coordinateY, Double weight) {
+    public Creature(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        this.NAME = NAME;
+        this.SPEED = SPEED;
+        this.SATIATE = SATIATE;
         this.weight = weight;
     }
 
@@ -29,7 +33,19 @@ public class Plant extends Creature {
         this.coordinateY = coordinateY;
     }
 
-    public double getWeight() {
+    public String getNAME() {
+        return NAME;
+    }
+
+    public Integer getSPEED() {
+        return SPEED;
+    }
+
+    public Double getSATIATE() {
+        return SATIATE;
+    }
+
+    public Double getWeight() {
         return weight;
     }
 
@@ -39,9 +55,12 @@ public class Plant extends Creature {
 
     @Override
     public String toString() {
-        return "Plant{" +
+        return "Creature{" +
                "coordinateX=" + coordinateX +
                ", coordinateY=" + coordinateY +
+               ", NAME='" + NAME + '\'' +
+               ", SPEED=" + SPEED +
+               ", SATIATE=" + SATIATE +
                ", weight=" + weight +
                '}';
     }

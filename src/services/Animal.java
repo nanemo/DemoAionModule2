@@ -1,75 +1,20 @@
 package services;
 
-public abstract class Animal {
-    private int coordinateX;
-    private int coordinateY;
-    private final String NAME;
-    private final Integer SPEED;
-    private final Double SATIATE;
-    private Double weight;
+public abstract class Animal extends Creature {
+
+    public static final int STRAIGHT = 1;
+    public static final int TO_LEFT = 2;
+    public static final int TO_RIGHT = 3;
+    public static final int BACK = 4;
 
     public Animal(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
-        this.NAME = NAME;
-        this.SPEED = SPEED;
-        this.SATIATE = SATIATE;
-        this.weight = weight;
+        super(coordinateX, coordinateY, NAME, SPEED, SATIATE, weight);
     }
 
-    public int getCoordinateX() {
-        return coordinateX;
-    }
-
-    public void setCoordinateX(int coordinateX) {
-        this.coordinateX = coordinateX;
-    }
-
-    public int getCoordinateY() {
-        return coordinateY;
-    }
-
-    public void setCoordinateY(int coordinateY) {
-        this.coordinateY = coordinateY;
-    }
-
-    public String getNAME() {
-        return NAME;
-    }
-
-    public Integer getSPEED() {
-        return SPEED;
-    }
-
-    public Double getSATIATE() {
-        return SATIATE;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public abstract void move();
-
-    public abstract void moveDirection();
+    public abstract void moveDirection(Animal animal, int x);
 
     public abstract void bread();
 
     public abstract void die();
 
-    @Override
-    public String toString() {
-        return "Animal{" +
-               "coordinateX=" + coordinateX +
-               ", coordinateY=" + coordinateY +
-               ", NAME='" + NAME + '\'' +
-               ", SPEED=" + SPEED +
-               ", SATIATE=" + SATIATE +
-               ", weight=" + weight +
-               '}';
-    }
 }

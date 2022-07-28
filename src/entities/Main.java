@@ -37,11 +37,11 @@ public class Main {
 
         CellInitializer.cellInitializer(cell);
 
-        Cell[][] initializer = CellInitializer.getInitializedCell();
+//        Cell[][] initializer = CellInitializer.getInitializedCell();
 
-        System.out.println(initializer[1][2].toString());
-
-        boar.eat();
+//        System.out.println(initializer[1][2].toString());
+//
+//        boar.eat();
 
     }
 }

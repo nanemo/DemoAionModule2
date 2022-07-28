@@ -11,16 +11,19 @@ public class Bear extends Predators {
         super(coordinateX, coordinateY, NAME, SPEED, SATIATE, weight);
     }
 
+    @Override
+    public void moveDirection(Animal animal, int x) {
+
+    }
+
     public void eat() {
 
     }
 
-    @Override
     public void move() {
 
     }
 
-    @Override
     public void moveDirection() {
 
     }
