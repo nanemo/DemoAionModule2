@@ -1,48 +1,21 @@
 package entities.plants;
 
-import services.Creature;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Plant extends Creature {
-    private int coordinateX;
-    private int coordinateY;
+@Getter
+@Setter
+public class Plant  {
     private Double weight;
 
-    public Plant(int coordinateX, int coordinateY, Double weight) {
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
-        this.weight = weight;
-    }
-
-    public int getCoordinateX() {
-        return coordinateX;
-    }
-
-    public void setCoordinateX(int coordinateX) {
-        this.coordinateX = coordinateX;
-    }
-
-    public int getCoordinateY() {
-        return coordinateY;
-    }
-
-    public void setCoordinateY(int coordinateY) {
-        this.coordinateY = coordinateY;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
+    public Plant(Double weight) {
         this.weight = weight;
     }
 
     @Override
     public String toString() {
         return "Plant{" +
-               "coordinateX=" + coordinateX +
-               ", coordinateY=" + coordinateY +
-               ", weight=" + weight +
+               "weight=" + weight +
                '}';
     }
 }

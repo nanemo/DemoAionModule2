@@ -1,88 +1,73 @@
 package entities.animals.herbivores;
 
+import abstractions.CellInitializer;
+import abstractions.Herbivores;
+import entities.Cell;
 import entities.plants.Plant;
-import services.*;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Boar extends Herbivores {
-    public static final int step = 2;
-    public static final int maxBoarCount = 50;
-    private Boar service = this;
+    private static final int step = 2;
+    private static final int maxBoarCount = 50;
+    private static final int minWeightBoar = 500;
 
-    public Boar(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(coordinateX, coordinateY, NAME, SPEED, SATIATE, weight);
+    public Boar(String NAME, Integer SPEED, Double SATIATE, Double weight) {
+        super(NAME, SPEED, SATIATE, weight);
     }
 
-    public void eat(Animal animal, int coordinateX, int coordinateY) {
-        coordinateX = service.getCoordinateX();
-        coordinateY = service.getCoordinateY();
+    @Override
+    public void eat() {
+        Cell currentCell = CellInitializer.findHerbivoresObjectInCells(this);
+        int chooseRandomFood = ThreadLocalRandom.current().nextInt(1, 4);
+        if (chooseRandomFood == 1 && currentCell.getPlantList() != null) {
+            eatPlant(currentCell);
+        } else if (chooseRandomFood == 2 && currentCell.getHerbivoresList() != null) {
+            for (Herbivores lookingForCaterpillar : currentCell.getHerbivoresList()) {
+                if (lookingForCaterpillar instanceof Caterpillar) {
+                    eatCaterpillar(lookingForCaterpillar);
+                }
+            }
+        }
 
-        List<Creature> plantList = CellInitializer.getInitializedCell(animal, coordinateX, coordinateY);
+    }
 
-        if (this.getWeight() <= 500) { // here we are checking if Boar weight is lower & equals than 500 kq than Boar
+    private void eatPlant(Cell currentCell) {
+        List<Plant> plantList = currentCell.getPlantList();
+
+        if (this.getWeight() <= minWeightBoar) { // here we are checking if Boar weight is lower & equals than 500 kq than Boar
             // should eat Plant if there is any plant in this Cell with this coordinates.
             while (plantList != null && this.getWeight() <= 550 && plantList.size() != 0) { // Plant is not null and Boar's weight is not higher 550
-                Plant plant = (Plant) plantList.get(plantList.size() - 1); // we get a last plant from plantList
+                Plant plant = plantList.get(plantList.size() - 1); // we get a last plant from plantList
                 Double plantWeight = plant.getWeight() - 1; // Boar is eating plant one by one
                 plantList.remove(plantList.size() - 1); // here remove a last object of plant
                 this.setWeight(this.getWeight() + 1); // Boar gets weight
                 System.out.println(plantList.size());
                 System.out.println(this.getWeight());
-
             }
         }
     }
 
-    public void toStarve() {
+    // Не готовый метод.
+    private void eatCaterpillar(Caterpillar caterpillar) { // Burani ishle, Caterpiller objecti gelmelidir bura ve
+        // listin ichinden katerpillerleri yemelidir
+        List<Herbivores> herbivoresList = caterpillar.getHerbivoresList();
 
-    }
-
-    public void forLearnType(Animal animalList) {
-        if (animalList instanceof Herbivores) {
-        }
-        if (animalList instanceof Predators) {
-        }
-    }
-
-    public void move() {
-
-    }
-
-    @Override
-    public void moveDirection(Animal animal, int direction) {
-        int boarCount = 0;
-        List<Creature> initializedCell = CellInitializer.getInitializedCell(animal, this.getCoordinateX(), this.getCoordinateY());
-
-        for (Creature boar : initializedCell) {
-            if (boar instanceof Boar) {
-                boarCount++;
+        if (this.getWeight() <= minWeightBoar) {
+            while (herbivoresList != null && this.getWeight() <= 550 && herbivoresList.size() != 0) {
+                Herbivores herbivore = herbivoresList.get(herbivoresList.size() - 1);
+                Double plantWeight = herbivore.getWeight() - 1;
+                herbivoresList.remove(herbivoresList.size() - 1);
+                this.setWeight(this.getWeight() + 1);
+                System.out.println(herbivoresList.size());
+                System.out.println(this.getWeight());
             }
         }
+    }
 
-        if (boarCount <= maxBoarCount) {
-
-            int coordinateY = animal.getCoordinateY();
-            int coordinateX = animal.getCoordinateX();
-
-            if (direction == STRAIGHT) {
-                if (coordinateX == 0) {
-                    animal.setCoordinateX(CellInitializer.getCellCoordinateXSize()-2);
-                } else if (coordinateX == 1) {
-                    animal.setCoordinateX(99);
-                } else {
-                    animal.setCoordinateX(coordinateX - step);
-                }
-            } else if (direction == BACK) {
-
-            } else if (direction == TO_RIGHT) {
-
-            } else if (direction == TO_LEFT) {
-
-            } else {
-
-            }
-        }
+    private void eatMouse(Cell currentCell) {
 
     }
 
@@ -93,7 +78,92 @@ public class Boar extends Herbivores {
 
     @Override
     public void die() {
+        if (this.getWeight() <= 0) {
+            Cell currentBoarObject = CellInitializer.findHerbivoresObjectInCells(this);
+        }
+    }
 
+    public void move() {
+        Cell currentBoarObject = CellInitializer.findHerbivoresObjectInCells(this);
+        if (currentBoarObject.getCoordinateX() != null && currentBoarObject.getCoordinateY() != null) {
+            Cell newCoordinates = defineNewDirection(currentBoarObject.getCoordinateX(), currentBoarObject.getCoordinateY(), step);
+            if (checkBoarCountInThisCell(newCoordinates)) {
+                CellInitializer.herbivoresInitializer(newCoordinates, this);
+            }
+        }
+    }
+
+    private boolean checkBoarCountInThisCell(Cell cell) { // Burda qalmisan
+        int boarCount = 0;
+
+        List<Herbivores> herbivoresList = cell.getHerbivoresList();
+
+        for (Herbivores boarsInHerbivores : herbivoresList) {
+            if (boarsInHerbivores.equals(this)) {
+                boarCount++;
+            }
+        }
+        return boarCount < maxBoarCount;
+    }
+
+    private Cell defineNewDirection(int coordinateX, int coordinateY, int step) {
+        Cell cell;
+        int randomNumForDirection = ThreadLocalRandom.current().nextInt(1, 5);
+
+        if (randomNumForDirection == STRAIGHT) {
+            System.out.println("STRAIGHT");
+            cell = new Cell(defineNewCoordinateStraightDirection(coordinateX, step), coordinateY);
+        } else if (randomNumForDirection == BACK) {
+            System.out.println("BACK");
+            cell = new Cell(defineNewCoordinateBackDirection(coordinateX, step), coordinateY);
+        } else if (randomNumForDirection == TO_RIGHT) {
+            System.out.println("RIGHT");
+            cell = new Cell(coordinateX, defineNewCoordinateRightDirection(coordinateY, step));
+        } else {
+            System.out.println("LEFT");
+            cell = new Cell(coordinateX, defineNewCoordinateLeftDirection(coordinateY, step));
+        }
+        return cell;
+    }
+
+    private int defineNewCoordinateLeftDirection(int coordinateY, int step) {
+        if (coordinateY == 0) {
+            return CellInitializer.getCellCoordinateYSize() - 1 - step;
+        } else if (coordinateY == 1) {
+            return CellInitializer.getCellCoordinateYSize() - 1;
+        } else {
+            return coordinateY - step;
+        }
+    }
+
+    private int defineNewCoordinateRightDirection(int coordinateY, int step) {
+        if (coordinateY == CellInitializer.getCellCoordinateYSize() - 1) {
+            return step;
+        } else if (coordinateY == CellInitializer.getCellCoordinateYSize() - 2) {
+            return step - 1;
+        } else {
+            return coordinateY + step;
+        }
+    }
+
+    private int defineNewCoordinateBackDirection(int coordinateX, int step) {
+        if (coordinateX == CellInitializer.getCellCoordinateXSize() - 1) {
+            return step;
+        } else if (coordinateX == CellInitializer.getCellCoordinateXSize() - 2) {
+            return step - 1;
+        } else {
+            return coordinateX + step;
+        }
+    }
+
+    private int defineNewCoordinateStraightDirection(int coordinateX, int step) {
+        if (coordinateX == 0) {
+            return CellInitializer.getCellCoordinateXSize() - 1 - step;
+        } else if (coordinateX == 1) {
+            return CellInitializer.getCellCoordinateXSize() + 1 - step;
+        } else {
+            return coordinateX - step;
+        }
     }
 
 }

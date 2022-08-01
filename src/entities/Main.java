@@ -1,47 +1,48 @@
 package entities;
 
+import abstractions.CellInitializer;
+import abstractions.Herbivores;
 import entities.animals.herbivores.Boar;
-import entities.animals.predators.Bear;
 import entities.plants.Plant;
-import services.CellInitializer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        Cell cell = new Cell();
+//        Cell cell = new Cell(1,2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+//        CellInitializer.primaryCellInitializer(cell);
 
-        Boar boar = new Boar(1, 2, "Boar1",2, 50.00, 400.0);
-        Bear bear = new Bear(1, 2, "Bear1",2, 80.00, 500.0);
-        Plant plant = new Plant(1, 2, 10.00);
+        List<Herbivores> herbivoresList = new ArrayList<>();
+        Herbivores herbivores = new Boar("Boar",2,400.00,  50.00);
+        herbivoresList.add(herbivores);
 
-        Boar boar1 = new Boar(1, 2, "Boar2",2, 50.00, 400.0);
-        Bear bear1 = new Bear(1, 2, "Bear2",2, 80.00, 500.0);
+        Plant plant = new Plant(1.00);
+        Plant plant1 = new Plant(1.00);
+        Plant plant2 = new Plant(1.00);
+        Plant plant3 = new Plant(1.00);
+        Plant plant4 = new Plant(1.00);
+        Plant plant5 = new Plant(1.00);
+        Plant plant6 = new Plant(1.00);
 
-        Plant plant1 = new Plant(1, 2, 1.00);
-        Plant plant2 = new Plant(1, 2, 1.00);
-        Plant plant3 = new Plant(1, 2, 1.00);
-        Plant plant4 = new Plant(1, 2, 1.00);
-        Plant plant5 = new Plant(1, 2, 1.00);
+        List<Plant> plantList = new ArrayList<>();
+        plantList.add(plant);
+        plantList.add(plant1);
+        plantList.add(plant2);
+        plantList.add(plant3);
+        plantList.add(plant4);
+        plantList.add(plant5);
+        plantList.add(plant6);
 
-        cell.addAnimals(bear);
-        cell.addAnimals(boar);
-        cell.addPlants(plant);
+        Cell cell = new Cell(0,0,herbivoresList, plantList);
 
-        cell.addAnimals(bear1);
-        cell.addAnimals(boar1);
-        cell.addPlants(plant1);
-        cell.addPlants(plant2);
-        cell.addPlants(plant3);
-        cell.addPlants(plant4);
-        cell.addPlants(plant5);
+        CellInitializer.primaryCellInitializer(cell);
 
-        CellInitializer.cellInitializer(cell);
+        System.out.println(cell.toString());
 
-//        Cell[][] initializer = CellInitializer.getInitializedCell();
+        herbivores.eat();
 
-//        System.out.println(initializer[1][2].toString());
-//
-//        boar.eat();
-
+        System.out.println(cell.toString());
     }
 }

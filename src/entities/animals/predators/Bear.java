@@ -1,17 +1,16 @@
 package entities.animals.predators;
 
-import services.Animal;
-import services.Predators;
+import abstractions.Animal;
+import abstractions.Predators;
 
 public class Bear extends Predators {
 
     private static Animal animal;
 
-    public Bear(int coordinateX, int coordinateY, String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(coordinateX, coordinateY, NAME, SPEED, SATIATE, weight);
+    public Bear(String NAME, Integer SPEED, Double SATIATE, Double weight) {
+        super(NAME, SPEED, SATIATE, weight);
     }
 
-    @Override
     public void moveDirection(Animal animal, int x) {
 
     }
