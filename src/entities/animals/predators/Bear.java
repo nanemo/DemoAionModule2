@@ -1,14 +1,14 @@
 package entities.animals.predators;
 
 import abstractions.Animal;
-import abstractions.Predators;
+import abstractions.Predator;
 
-public class Bear extends Predators {
+public class Bear extends Predator {
 
     private static Animal animal;
 
-    public Bear(String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(NAME, SPEED, SATIATE, weight);
+    public Bear(Double weight) {
+        super(weight);
     }
 
     public void moveDirection(Animal animal, int x) {

@@ -1,8 +1,6 @@
 package entities;
 
-import abstractions.CellInitializer;
-import abstractions.Herbivores;
-import entities.animals.herbivores.Boar;
+import abstractions.Herbivore;
 import entities.plants.Plant;
 
 import java.util.ArrayList;
@@ -14,9 +12,9 @@ public class Main {
 //        Cell cell = new Cell(1,2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 //        CellInitializer.primaryCellInitializer(cell);
 
-        List<Herbivores> herbivoresList = new ArrayList<>();
-        Herbivores herbivores = new Boar("Boar",2,400.00,  50.00);
-        herbivoresList.add(herbivores);
+        List<Herbivore> herbivoreList = new ArrayList<>();
+//        Herbivore herbivore = new Boar("Boar",2,400.00,  50.00);
+//        herbivoreList.add(herbivore);
 
         Plant plant = new Plant(1.00);
         Plant plant1 = new Plant(1.00);
@@ -35,14 +33,5 @@ public class Main {
         plantList.add(plant5);
         plantList.add(plant6);
 
-        Cell cell = new Cell(0,0,herbivoresList, plantList);
-
-        CellInitializer.primaryCellInitializer(cell);
-
-        System.out.println(cell.toString());
-
-        herbivores.eat();
-
-        System.out.println(cell.toString());
     }
 }

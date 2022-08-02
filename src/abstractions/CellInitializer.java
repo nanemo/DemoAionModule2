@@ -1,84 +1,75 @@
 package abstractions;
 
-import entities.Cell;
+import controller.Cell;
+import controller.Coordinate;
+import controller.Island;
 
 public class CellInitializer {
-    private final static int sizeX = 100;
-    private final static int sizeY = 20;
-    private static final Cell[][] cells = new Cell[sizeX][sizeY];
+    private Cell[][] cells = Island.getCELLS();
 
-    public static void primaryCellInitializer(Cell cell) {
-        cells[cell.getCoordinateX()][cell.getCoordinateY()] = cell;
+    public void primaryCellInitializer(Cell cell) {
+        cells[cell.getCoordinate().getCoordinateX()][cell.getCoordinate().getCoordinateY()] = cell;
     }
 
-    public static Cell getCellByCoordinates(Integer x, Integer y) {
+    public Cell getCellByCoordinates(int x, int y) {
         Cell cell = cells[x][y];
         return cell;
     }
 
-    public static void deleteHerbivoresObjectFromCells(Herbivores herbivores){
+    public <T extends Animal> void deleteAnimalFromCells(T t) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                for (Herbivores value : cells[i][j].getHerbivoresList()){
-                    if (value.equals(herbivores)){
-                        cells[i][j].getHerbivoresList().remove(herbivores);
+                if (this.checkInstanceOfAnimal(t)) {
+                    for (Herbivore value : cells[i][j].getHerbivoreList()) {
+                        if (value == t) {
+                            cells[i][j].getHerbivoreList().remove(t);
+                        }
+                    }
+                } else if (!(this.checkInstanceOfAnimal(t))) {
+                    for (Predator value : cells[i][j].getPredatorList()) {
+                        if (value == t) {
+                            cells[i][j].getPredatorList().remove(t);
+                        }
                     }
                 }
             }
         }
     }
 
-    public static void deletePredatorsObjectFromCells(Predators predators){
+    public <T extends Animal> Cell findAnimalInCells(T t) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                for (Predators value : cells[i][j].getPredatorsList()){
-                    if (value.equals(predators)){
-                        cells[i][j].getPredatorsList().remove(predators);
+                if (this.checkInstanceOfAnimal(t)) {
+                    for (Herbivore value : cells[i][j].getHerbivoreList()) {
+                        if (value == t) {
+                            return cells[i][j];
+                        }
+                    }
+                } else if (!(this.checkInstanceOfAnimal(t))) {
+                    for (Predator value : cells[i][j].getPredatorList()) {
+                        if (value == t) {
+                            return cells[i][j];
+                        }
                     }
                 }
             }
         }
+        throw new IllegalArgumentException();
     }
 
-    public static Cell findHerbivoresObjectInCells(Herbivores herbivores) {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                for (Herbivores value : cells[i][j].getHerbivoresList()){
-                    if (value.equals(herbivores)){
-                        return cells[i][j];
-                    }
-                }
-            }
+    public <T extends Animal> void initializeAnimalToNewCoordinates(Coordinate coordinate, T t) {
+        if (this.checkInstanceOfAnimal(t)) {
+            cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()].getHerbivoreList().add((Herbivore) t);
+        } else if (!(this.checkInstanceOfAnimal(t))) {
+            cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()].getPredatorList().add((Predator) t);
         }
-        return new Cell();
     }
 
-    public static Cell findPredatorObjectsInCells(Predators predators) {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                for (Predators value : cells[i][j].getPredatorsList()){
-                    if (value.equals(predators)){
-                        return cells[i][j];
-                    }
-                }
-            }
+    private <T extends Animal> boolean checkInstanceOfAnimal(T t) {
+        if (t instanceof Herbivore) {
+            return true;
+        } else {
+            return false;
         }
-        return new Cell();
-    }
-
-    public static void herbivoresInitializer(Cell cell, Herbivores herbivores){
-        cells[cell.getCoordinateX()][cell.getCoordinateY()].getHerbivoresList().add(herbivores);
-    }
-
-    public static void predatorsInitializer(Cell cell, Predators predators){
-        cells[cell.getCoordinateX()][cell.getCoordinateY()].getPredatorsList().add(predators);
-    }
-
-    public static int getCellCoordinateXSize() {
-        return cells.length;
-    }
-
-    public static int getCellCoordinateYSize() {
-        return cells[0].length;
     }
 }

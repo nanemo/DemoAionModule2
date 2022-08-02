@@ -1,11 +1,11 @@
 package entities.animals.herbivores;
 
-import abstractions.Herbivores;
+import abstractions.Herbivore;
 
-public class Caterpillar extends Herbivores {
+public class Caterpillar extends Herbivore {
 
-    public Caterpillar(String NAME, Integer SPEED, Double SATIATE, Double weight) {
-        super(NAME, SPEED, SATIATE, weight);
+    public Caterpillar(Double weight) {
+        super(weight);
     }
 
     @Override
