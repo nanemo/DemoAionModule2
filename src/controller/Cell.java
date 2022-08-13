@@ -2,14 +2,13 @@ package controller;
 
 import abstractions.Herbivore;
 import abstractions.Predator;
-import entities.plants.Plant;
+import entity.organism.plants.Plant;
 import lombok.Getter;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 public class Cell {
     private Coordinate coordinate;
     private List<Predator> predatorList;
@@ -17,16 +16,10 @@ public class Cell {
     private List<Plant> plantList;
 
     public Cell() {
-
+        coordinate = new Coordinate();
+        predatorList = new ArrayList<>();
+        herbivoreList = new ArrayList<>();
+        plantList = new ArrayList<>();
     }
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-               "animalsCoordinate=" + coordinate +
-               ", predatorsList=" + predatorList +
-               ", herbivoresList=" + herbivoreList +
-               ", plantList=" + plantList +
-               '}';
-    }
 }

@@ -6,17 +6,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Coordinate {
-    private Integer coordinateX;
-    private Integer coordinateY;
+    private int coordinateX;
+    private int coordinateY;
 
     public Coordinate(){
 
     }
 
-    public Coordinate(Integer coordinateX, Integer coordinateY) {
+    public Coordinate(int coordinateX, int coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
+
 
     @Override
     public String toString() {

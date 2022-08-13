@@ -1,27 +1,44 @@
 package controller;
 
 public class Island {
-    private final static int SIZE_X = 100;
-    private final static int SIZE_Y = 20;
-    private static final Cell[][] CELLS = new Cell[SIZE_X][SIZE_Y];
+    private static final int sizeX = 100;
+    private final int sizeY = 20;
+    private final Cell[][] cells = new Cell[sizeX][sizeY];
+    private static Island island;
 
-    public static int getCellCoordinateXSize() {
-        return CELLS.length;
+    private Island() {
+
     }
 
-    public static int getCellCoordinateYSize() {
-        return CELLS[0].length;
+    public static Island getInstanceIsland() {
+        if (island == null) {
+            island = new Island();
+        }
+        return island;
     }
 
-    public static int getSizeX() {
-        return SIZE_X;
+    public int getCellCoordinateXLength() {
+        return cells.length;
     }
 
-    public static int getSizeY() {
-        return SIZE_Y;
+    public int getCellCoordinateYLength() {
+        return cells[0].length;
     }
 
-    public static Cell[][] getCELLS() {
-        return CELLS;
+    public Cell getCells(Coordinate coordinate) {
+        if (!(cellIsNotNull(coordinate))) {
+            cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = new Cell();
+        }
+        return cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()];
     }
+
+    public void setCells(Coordinate coordinate, Cell cell) {
+        cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = cell;
+    }
+
+    private boolean cellIsNotNull(Coordinate coordinate) {
+        return cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] != null;
+    }
+
+
 }

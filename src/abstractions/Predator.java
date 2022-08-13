@@ -2,7 +2,7 @@ package abstractions;
 
 public abstract class Predator extends Animal {
 
-    public Predator(Double weight) {
+    public Predator(double weight) {
         super(weight);
     }
 }
