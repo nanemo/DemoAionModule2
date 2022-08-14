@@ -35,7 +35,7 @@ public class FactoryAnimal {
         listPlantFactory.add(new Plant(PlantProperties.MIN_WEIGHT_PLANT));
     }
 
-    public static FactoryAnimal getFactoryAnimalInstance() {
+    public synchronized static FactoryAnimal getFactoryAnimalInstance() {
         if (factoryAnimal == null) {
             factoryAnimal = new FactoryAnimal();
         }

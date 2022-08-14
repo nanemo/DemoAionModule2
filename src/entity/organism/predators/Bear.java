@@ -13,6 +13,7 @@ import property.util.EatableAnimal;
 import property.util.MovableAnimal;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Bear extends Predator implements MovableAnimal, EatableAnimal, BornOrganism {
@@ -36,40 +37,55 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
-            if (iteratorForHerbivores.next() instanceof Horse && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_HORSE) == 0) {
+            String className = iteratorForHerbivores.next().getClass().getName();
+            if (Objects.equals(className, Horse.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_HORSE) {
                 eatHorse(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Deer && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_DEER) == 0) {
+            } else if (Objects.equals(className, Deer.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_DEER) {
                 eatDeer(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Rabbit && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_RABBIT) == 0) {
+            } else if (Objects.equals(className, Rabbit.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_RABBIT) {
                 eatRabbit(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Mouse && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_MOUSE) == 0) {
+            } else if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_MOUSE) {
                 eatMouse(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Goat && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_GOAT) == 0) {
+            } else if (Objects.equals(className, Goat.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_GOAT) {
                 eatGoat(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Sheep && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_SHEEP) == 0) {
+            } else if (Objects.equals(className, Sheep.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_SHEEP) {
                 eatSheep(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Boar && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_BOAR) == 0) {
+            } else if (Objects.equals(className, Boar.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOAR) {
                 eatBoar(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Buffalo && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_BUFFALO) == 0) {
+            } else if (Objects.equals(className, Buffalo.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_BUFFALO) {
                 eatBuffalo(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Duck && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_DUCK) == 0) {
+            } else if (Objects.equals(className, Duck.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_DUCK) {
                 eatDuck(t);
                 iteratorForHerbivores.remove();
+            } else {
+                dietAnimal(t);
             }
         }
         Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
         while (iteratorForPredators.hasNext() && t.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
-            if (iteratorForPredators.next() instanceof Boa && ThreadLocalRandom.current().nextInt(BearProperties.CHANCE_TO_EAT_BOA) == 0) {
+            String className = iteratorForPredators.next().getClass().getName();
+            if (Objects.equals(className, Boa.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOA) {
                 eatBoa(t);
                 iteratorForPredators.remove();
+            } else {
+                dietAnimal(t);
             }
         }
     }
@@ -79,6 +95,12 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         if (ThreadLocalRandom.current().nextBoolean() && bearCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Bear(BearProperties.MIN_WEIGHT_BEAR);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
+        }
+    }
+
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
         }
     }
 

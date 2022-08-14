@@ -5,13 +5,13 @@ import abstractions.Herbivore;
 import controller.Cell;
 import controller.CellInitializer;
 import controller.Coordinate;
-import entity.organism.plants.Plant;
 import property.organismproperty.herbivoreproperty.MouseProperties;
 import property.util.BornOrganism;
 import property.util.EatableAnimal;
 import property.util.MovableAnimal;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, BornOrganism {
@@ -36,18 +36,22 @@ public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
 
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
-            if (iteratorForHerbivores.next() instanceof Caterpillar && ThreadLocalRandom.current().nextInt(MouseProperties.CHANCE_TO_EAT_CATERPILLAR) == 0) {
+            String className = iteratorForHerbivores.next().getClass().getName();
+            if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
+            } else {
+                dietAnimal(t);
             }
         }
 
-        if (currentCell.getPlantList() != null && ThreadLocalRandom.current().nextInt(MouseProperties.CHANCE_TO_EAT_PLANT) == 0) {
-            Iterator<Plant> iteratorForPlant = currentCell.getPlantList().iterator();
-            while (iteratorForPlant.hasNext() && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
+        if (currentCell.getPlantList() != null) {
+            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
                 eatPlant(t);
-                iteratorForPlant.remove();
+                currentCell.getPlantList().remove(0);
             }
+        } else {
+            dietAnimal(t);
         }
     }
 
@@ -56,6 +60,12 @@ public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
         if (ThreadLocalRandom.current().nextBoolean() && mouseCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Mouse(MouseProperties.MIN_WEIGHT_MOUSE);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
+        }
+    }
+
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
         }
     }
 

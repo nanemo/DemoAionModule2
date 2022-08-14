@@ -24,16 +24,12 @@ public interface MovableAnimal {
         int randomNumForDirection = ThreadLocalRandom.current().nextInt(1, 5);
 
         if (randomNumForDirection == STRAIGHT) {
-            System.out.println("STRAIGHT");
             newCoordinate = toStraightDirection(coordinate, step);
         } else if (randomNumForDirection == BACK) {
-            System.out.println("BACK");
             newCoordinate = toBackDirection(coordinate, step);
         } else if (randomNumForDirection == TO_RIGHT) {
-            System.out.println("RIGHT");
             newCoordinate = toRightDirection(coordinate, step);
         } else {
-            System.out.println("LEFT");
             newCoordinate = toLeftDirection(coordinate, step);
         }
         return newCoordinate;

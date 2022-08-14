@@ -4,11 +4,13 @@ import abstractions.Animal;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public interface DietAnimal { // Bunu isle
+public interface DietAnimal {
 
-    default <T extends Animal> void weightLoss(T t) {
+    default <T extends Animal> double weightLoss(T t) {
         if (ThreadLocalRandom.current().nextBoolean()) {
             t.setWeight(t.getWeight() - 1);
+            return t.getWeight();
         }
+        return t.getWeight();
     }
 }

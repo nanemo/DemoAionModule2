@@ -5,12 +5,10 @@ import abstractions.Herbivore;
 import controller.Cell;
 import controller.CellInitializer;
 import controller.Coordinate;
-import entity.organism.plants.Plant;
 import property.organismproperty.herbivoreproperty.CaterpillarProperties;
 import property.util.BornOrganism;
 import property.util.EatableAnimal;
 
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Caterpillar extends Herbivore implements EatableAnimal, BornOrganism {
@@ -28,11 +26,12 @@ public class Caterpillar extends Herbivore implements EatableAnimal, BornOrganis
     @Override
     public <T extends Animal> void eat(Coordinate coordinate, T t) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-        if (currentCell.getPlantList() != null && ThreadLocalRandom.current().nextInt(CaterpillarProperties.CHANCE_TO_EAT_PLANT) == 0) {
-            Iterator<Plant> iteratorForPlant = currentCell.getPlantList().iterator();
-            while (iteratorForPlant.hasNext()) {
-                iteratorForPlant.remove();
+        if (currentCell.getPlantList() != null) {
+            while (!(currentCell.getPlantList().isEmpty())) {
+                currentCell.getPlantList().remove(0);
             }
+        } else {
+            dietAnimal(t);
         }
     }
 
@@ -41,6 +40,12 @@ public class Caterpillar extends Herbivore implements EatableAnimal, BornOrganis
         if (ThreadLocalRandom.current().nextBoolean() && caterpillarCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Caterpillar(CaterpillarProperties.MIN_WEIGHT_CATERPILLAR);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
+        }
+    }
+
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
         }
     }
 

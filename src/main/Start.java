@@ -1,45 +1,33 @@
 package main;
 
-import controller.Cell;
 import controller.CellInitializer;
-import controller.Coordinate;
-import controller.Island;
-import entity.organism.herbivores.Boar;
-import factory.FactoryAnimal;
-import property.util.MovableAnimal;
+import property.util.ActionsForOrganisms;
+import property.util.StaticsOrganism;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.Executors;
 
 public class Start {
+    private static CellInitializer cellInitializer = new CellInitializer();
+    private static ActionsForOrganisms actionsForOrganisms = new ActionsForOrganisms();
 
     public static void main(String[] args) {
-
-        MovableAnimal movableAnimal = FactoryAnimal.getFactoryAnimalInstance().getListAnimalFactory().get(0);
-
-
-        new Boar(500.00).bornOrganism(new Coordinate(0, 1));
-
+        Executors.newScheduledThreadPool(3).scheduleAtFixedRate(, 15,)
+        cellInitializer.primaryInitializerOrganismToCell();
         // isExist ile yoxla animal var ya yox
-        CellInitializer cellInitializer = new CellInitializer();
-        for (int i = 0; i < Island.getInstanceIsland().getCellCoordinateXLength(); i++) {
-            for (int j = 0; j < Island.getInstanceIsland().getCellCoordinateYLength(); j++) {
-                Coordinate coordinate = new Coordinate(i, j);
-                Island.getInstanceIsland().setCells(coordinate, new Cell());
-                for (int k = 0; i < 10; i++) {
-                    cellInitializer.initializeBreadedAnimalToCell(coordinate,
-                            FactoryAnimal.getFactoryAnimalInstance().getListAnimalFactory().get(ThreadLocalRandom.current().nextInt(16)));
-                }
-                for (int k = 0; k < 200; k++) {
-                    cellInitializer.initializeNewGrowPlantToCell(coordinate,
-                            FactoryAnimal.getFactoryAnimalInstance().getListPlantFactory().get(0));
-                }
+
+        Runnable aaa = new Runnable() {
+            @Override
+            public void run() {
+                actionsForOrganisms.moveHerbivores();
+                actionsForOrganisms.movePredators();
+                actionsForOrganisms.feedHerbivores();
+                actionsForOrganisms.feedPredators();
+                actionsForOrganisms.bornHerbivores();
+                actionsForOrganisms.bornPredators();
+                StaticsOrganism.staticsForCountAnimalsAndPlants();
+                StaticsOrganism.staticsAboutWeightAnimals();
+                System.out.println("=======================================================================");
             }
-        }
-
-        for (int i = 0; i < 5; i++) {
-
-        }
-
-
+        };
     }
 }

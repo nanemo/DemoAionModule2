@@ -54,7 +54,7 @@ public class QuadrupleStepAnimal {
             return cellInitializer.island.getCellCoordinateYLength() - step;
         } else if (coordinateY == 2) {
             return cellInitializer.island.getCellCoordinateYLength() - 3;
-        } else if (coordinateY == 2) {
+        } else if (coordinateY == 3) {
             return cellInitializer.island.getCellCoordinateYLength() - 2;
         } else {
             return coordinateY - step;

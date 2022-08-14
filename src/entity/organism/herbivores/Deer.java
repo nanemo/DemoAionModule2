@@ -5,13 +5,11 @@ import abstractions.Herbivore;
 import controller.Cell;
 import controller.CellInitializer;
 import controller.Coordinate;
-import entity.organism.plants.Plant;
 import property.organismproperty.herbivoreproperty.DeerProperties;
 import property.util.BornOrganism;
 import property.util.EatableAnimal;
 import property.util.MovableAnimal;
 
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, BornOrganism {
@@ -33,12 +31,13 @@ public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     @Override
     public <T extends Animal> void eat(Coordinate coordinate, T t) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-        if (currentCell.getPlantList() != null && ThreadLocalRandom.current().nextInt(DeerProperties.CHANCE_TO_EAT_PLANT) == 0) {
-            Iterator<Plant> iteratorForPlant = currentCell.getPlantList().iterator();
-            while (iteratorForPlant.hasNext() && t.getWeight() <= DeerProperties.MAX_WEIGHT_DEER) {
+        if (currentCell.getPlantList() != null) {
+            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= DeerProperties.MAX_WEIGHT_DEER) {
                 eatPlant(t);
-                iteratorForPlant.remove();
+                currentCell.getPlantList().remove(0);
             }
+        } else {
+            dietAnimal(t);
         }
     }
 
@@ -47,6 +46,12 @@ public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         if (ThreadLocalRandom.current().nextBoolean() && deerCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Deer(DeerProperties.MIN_WEIGHT_DEER);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
+        }
+    }
+
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
         }
     }
 

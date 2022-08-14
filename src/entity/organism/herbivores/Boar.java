@@ -5,7 +5,6 @@ import abstractions.Herbivore;
 import controller.Cell;
 import controller.CellInitializer;
 import controller.Coordinate;
-import entity.organism.plants.Plant;
 import property.organismproperty.herbivoreproperty.BoarProperties;
 import property.util.BornOrganism;
 import property.util.DietAnimal;
@@ -13,16 +12,16 @@ import property.util.EatableAnimal;
 import property.util.MovableAnimal;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, BornOrganism, DietAnimal {
-
-    private CellInitializer cellInitializer = new CellInitializer();
 
     public Boar(Double weight) {
         super(weight);
     }
+
+    private CellInitializer cellInitializer = new CellInitializer();
 
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
@@ -38,20 +37,22 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
 
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
-            if (iteratorForHerbivores.next() instanceof Mouse && ThreadLocalRandom.current().nextInt(BoarProperties.CHANCE_TO_EAT_MOUSE) == 0) {
+            String className = iteratorForHerbivores.next().getClass().getName();
+            if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_MOUSE) {
                 eatMouse(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Caterpillar && ThreadLocalRandom.current().nextInt(BoarProperties.CHANCE_TO_EAT_CATERPILLAR) == 0) {
+            } else if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
+            } else {
+                dietAnimal(t);
             }
         }
 
-        if (currentCell.getPlantList() != null && ThreadLocalRandom.current().nextInt(BoarProperties.CHANCE_TO_EAT_PLANT) == 0) {
-            Iterator<Plant> iteratorForPlant = currentCell.getPlantList().iterator();
-            while (iteratorForPlant.hasNext() && t.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
+        if (currentCell.getPlantList() != null) {
+            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
                 eatPlant(t);
-                iteratorForPlant.remove();
+                currentCell.getPlantList().remove(0);
             }
         }
     }
@@ -64,8 +65,10 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
-    public <T extends Animal> void dietAnimal(T t) {
-        weightLoss(t);
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
+        }
     }
 
     private boolean boarCountIsNotFull(Coordinate coordinateForCount) {

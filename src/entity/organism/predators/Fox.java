@@ -16,6 +16,7 @@ import property.util.EatableAnimal;
 import property.util.MovableAnimal;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornOrganism {
@@ -39,18 +40,21 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= FoxProperties.MAX_WEIGHT_FOX) {
-            if (iteratorForHerbivores.next() instanceof Rabbit && ThreadLocalRandom.current().nextInt(FoxProperties.CHANCE_TO_EAT_RABBIT) == 0) {
+            String className = iteratorForHerbivores.next().getClass().getName();
+            if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_RABBIT) {
                 eatRabbit(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Mouse && ThreadLocalRandom.current().nextInt(FoxProperties.CHANCE_TO_EAT_MOUSE) == 0) {
+            } else if (Objects.equals(className,Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_MOUSE) {
                 eatMouse(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Duck && ThreadLocalRandom.current().nextInt(FoxProperties.CHANCE_TO_EAT_DUCK) == 0) {
+            } else if (Objects.equals(className,Duck.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_DUCK) {
                 eatDuck(t);
                 iteratorForHerbivores.remove();
-            } else if (iteratorForHerbivores.next() instanceof Caterpillar && ThreadLocalRandom.current().nextInt(FoxProperties.CHANCE_TO_EAT_CATERPILLAR) == 0) {
+            } else if (Objects.equals(className,Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
+            } else {
+                dietAnimal(t);
             }
         }
     }
@@ -60,6 +64,12 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
         if (ThreadLocalRandom.current().nextBoolean() && foxCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Fox(FoxProperties.MIN_WEIGHT_FOX);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
+        }
+    }
+
+    private <T extends Animal> void dietAnimal(T t) {
+        if (weightLoss(t) <= 0){
+            t = null;
         }
     }
 

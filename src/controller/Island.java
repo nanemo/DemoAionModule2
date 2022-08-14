@@ -1,9 +1,10 @@
 package controller;
 
 public class Island {
-    private static final int sizeX = 100;
-    private final int sizeY = 20;
-    private final Cell[][] cells = new Cell[sizeX][sizeY];
+    /** Island length must be at least x - 5 and y - 5*/
+    private static final int SIZE_X = 5;
+    private static final int SIZE_Y = 5;
+    private static final Cell[][] CELLS = new Cell[SIZE_X][SIZE_Y];
     private static Island island;
 
     private Island() {
@@ -18,26 +19,30 @@ public class Island {
     }
 
     public int getCellCoordinateXLength() {
-        return cells.length;
+        return CELLS.length;
     }
 
     public int getCellCoordinateYLength() {
-        return cells[0].length;
+        return CELLS[0].length;
     }
 
     public Cell getCells(Coordinate coordinate) {
         if (!(cellIsNotNull(coordinate))) {
-            cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = new Cell();
+            CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = new Cell();
         }
-        return cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()];
+        return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()];
     }
 
     public void setCells(Coordinate coordinate, Cell cell) {
-        cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = cell;
+        CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = cell;
     }
 
     private boolean cellIsNotNull(Coordinate coordinate) {
-        return cells[coordinate.getCoordinateX()][coordinate.getCoordinateY()] != null;
+        return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] != null;
+    }
+
+    public Cell[][] getCELLS() {
+        return CELLS;
     }
 
 
