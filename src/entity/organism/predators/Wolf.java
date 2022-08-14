@@ -66,7 +66,7 @@ public class Wolf extends Predator implements MovableAnimal, EatableAnimal, Born
                 eatDuck(t);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
     }
@@ -79,9 +79,9 @@ public class Wolf extends Predator implements MovableAnimal, EatableAnimal, Born
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

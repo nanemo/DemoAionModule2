@@ -45,7 +45,7 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
 
@@ -54,6 +54,8 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
                 eatPlant(t);
                 currentCell.getPlantList().remove(0);
             }
+        } else {
+            dietAnimal(coordinate, t);
         }
     }
 
@@ -65,9 +67,9 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
-        if (weightLoss(t) <= 0){
-            t = null;
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
+        if (weightLoss(t) <= 0) {
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

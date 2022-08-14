@@ -37,7 +37,7 @@ public class Rabbit extends Herbivore implements MovableAnimal, EatableAnimal, B
                 currentCell.getPlantList().remove(t);
             }
         } else {
-            dietAnimal(t);
+            dietAnimal(coordinate, t);
         }
     }
 
@@ -49,10 +49,9 @@ public class Rabbit extends Herbivore implements MovableAnimal, EatableAnimal, B
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
-        }
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);        }
     }
 
     private boolean rabbitCountIsNotFull(Coordinate coordinateForCount) {

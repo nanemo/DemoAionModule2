@@ -75,7 +75,7 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
                 eatDuck(t);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
         Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
@@ -85,7 +85,7 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
                 eatBoa(t);
                 iteratorForPredators.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
     }
@@ -98,9 +98,9 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
-        if (weightLoss(t) <= 0){
-            t = null;
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
+        if (weightLoss(t) <= 0) {
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

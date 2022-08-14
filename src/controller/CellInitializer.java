@@ -14,14 +14,11 @@ public class CellInitializer {
 
     public Island island = Island.getInstanceIsland();
 
-    public void primaryCellInitializer(Coordinate coordinate, Cell cell) {
-        island.setCells(coordinate, cell);
-    }
-
     public Cell getCellByCoordinates(Coordinate coordinate) {
         return island.getCells(coordinate);
     }
 
+    /** With this method program get coordinate an object for removing from cell*/
     public <T extends Animal> void deleteAnimalFromCells(Coordinate coordinate, T t) {
         if (animalIsHerbivore(t)) {
             Iterator<Herbivore> herbivoreIterator = island.getCells(coordinate).getHerbivoreList().iterator();
@@ -46,7 +43,8 @@ public class CellInitializer {
         return island.getCells(coordinate).getPlantList();
     }
 
-    /** In this method */
+    /** This method gets new coordinate, current coordinate and its object. It checks at first for Type of Object.
+     * After adding new animal in cell and remove the object.*/
     public <T extends Animal> void moveAnimalToNewCoordinate(Coordinate newCoordinate, Coordinate oldCoordinate, T t) {
         if (animalIsHerbivore(t)) {
             island.getCells(newCoordinate).getHerbivoreList().add((Herbivore) t);
@@ -67,18 +65,17 @@ public class CellInitializer {
 
     }
 
-    /** In this method we check up that object is Herbivore or not*/
+    /** In this method other methods check that object up for that is Herbivore or Predator object*/
     private <T extends Animal> boolean animalIsHerbivore(T t) {
         return t instanceof Herbivore;
     }
 
-    /** */
+    /** Method get coordinate and plan object for adding new object of plant*/
     public void initializeNewGrowPlantToCell(Coordinate coordinate, Plant newGrowPlant) {
         island.getCells(coordinate).getPlantList().add(newGrowPlant);
     }
 
-    /** Here we initialize 10 random animal objects and 100 plants into an island.
-    */
+    /** Here we initialize 10 random animal objects and 100 plants into an island.*/
     public void primaryInitializerOrganismToCell() {
         for (int i = 0; i < Island.getInstanceIsland().getCellCoordinateXLength(); i++) {
             for (int j = 0; j < Island.getInstanceIsland().getCellCoordinateYLength(); j++) {

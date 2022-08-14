@@ -1,7 +1,7 @@
-package property.directionofmovement;
+package property.direction;
 
 import controller.CellInitializer;
-
+/** This class for single step Animals. Here methods define new coordinates*/
 public class SingleStepAnimal {
     private CellInitializer cellInitializer = new CellInitializer();
 

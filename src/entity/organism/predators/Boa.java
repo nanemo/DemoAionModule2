@@ -50,7 +50,7 @@ public class Boa extends Predator implements MovableAnimal, EatableAnimal, BornO
                 eatDuck(t);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
         Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
@@ -60,7 +60,7 @@ public class Boa extends Predator implements MovableAnimal, EatableAnimal, BornO
                 eatFox(t);
                 iteratorForPredators.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
     }
@@ -73,9 +73,9 @@ public class Boa extends Predator implements MovableAnimal, EatableAnimal, BornO
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

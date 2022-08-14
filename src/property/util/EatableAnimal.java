@@ -7,6 +7,7 @@ import property.organismproperty.plantproperty.PlantProperties;
 import property.organismproperty.predatorproperty.BoaProperties;
 import property.organismproperty.predatorproperty.FoxProperties;
 
+/** This interface has default methods for animals. His methods get coordinate and generics objects. */
 public interface EatableAnimal {
     <T extends Animal> void eat(Coordinate coordinate, T t);
 

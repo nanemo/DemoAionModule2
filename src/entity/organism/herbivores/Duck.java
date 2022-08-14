@@ -42,7 +42,7 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(t);
+                dietAnimal(coordinate, t);
             }
         }
         if (currentCell.getPlantList() != null) {
@@ -51,7 +51,7 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(t);
+            dietAnimal(coordinate, t);
         }
     }
 
@@ -63,9 +63,9 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

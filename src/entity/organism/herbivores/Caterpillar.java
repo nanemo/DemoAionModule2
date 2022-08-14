@@ -31,7 +31,7 @@ public class Caterpillar extends Herbivore implements EatableAnimal, BornOrganis
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(t);
+            dietAnimal(coordinate, t);
         }
     }
 
@@ -43,9 +43,9 @@ public class Caterpillar extends Herbivore implements EatableAnimal, BornOrganis
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

@@ -1,7 +1,7 @@
-package property.directionofmovement;
+package property.direction;
 
 import controller.CellInitializer;
-
+/** This class for double step Animals. Here methods define new coordinates*/
 public class DoubleStepAnimal {
     private CellInitializer cellInitializer = new CellInitializer();
 

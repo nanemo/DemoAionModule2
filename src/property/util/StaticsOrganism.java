@@ -3,6 +3,7 @@ package property.util;
 import controller.Cell;
 import controller.CellInitializer;
 
+/** With help this class client can get statistics of Organisms.*/
 public class StaticsOrganism {
     private static CellInitializer cellInitializer = new CellInitializer();
     private static Cell[][] cells = cellInitializer.island.getCELLS();

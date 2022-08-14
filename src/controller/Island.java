@@ -1,7 +1,12 @@
 package controller;
 
+/**
+ * Class Island has two-dimensional array for world game.
+ */
 public class Island {
-    /** Island length must be at least x - 5 and y - 5*/
+    /**
+     * Island length must be at least x - 5 and y - 5
+     */
     private static final int SIZE_X = 5;
     private static final int SIZE_Y = 5;
     private static final Cell[][] CELLS = new Cell[SIZE_X][SIZE_Y];

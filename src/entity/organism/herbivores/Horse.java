@@ -37,7 +37,7 @@ public class Horse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(t);
+            dietAnimal(coordinate, t);
         }
     }
 
@@ -49,9 +49,9 @@ public class Horse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
         }
     }
 
-    private <T extends Animal> void dietAnimal(T t) {
+    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            t = null;
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

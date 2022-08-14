@@ -8,6 +8,9 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *In this class program create the objects of animal and plant for adding in Lists.
+ */
 @Getter
 public class Cell {
     private Coordinate coordinate;
@@ -22,15 +25,15 @@ public class Cell {
         plantList = new ArrayList<>();
     }
 
-    public void printPredatorList(){
+    public void printPredatorList() {
         predatorList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
     }
 
-    public void printHerbivoreList(){
+    public void printHerbivoreList() {
         predatorList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
     }
 
-    public void printPlantList(){
+    public void printPlantList() {
         plantList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
     }
 }

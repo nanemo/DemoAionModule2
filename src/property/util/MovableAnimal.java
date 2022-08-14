@@ -2,15 +2,15 @@ package property.util;
 
 import abstractions.Animal;
 import controller.Coordinate;
-import property.directionofmovement.DoubleStepAnimal;
-import property.directionofmovement.QuadrupleStepAnimal;
-import property.directionofmovement.SingleStepAnimal;
-import property.directionofmovement.TripleStepAnimal;
+import property.direction.DoubleStepAnimal;
+import property.direction.QuadrupleStepAnimal;
+import property.direction.SingleStepAnimal;
+import property.direction.TripleStepAnimal;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import static abstractions.Animal.*;
-
+/** This interface has default methods which define new direction for animals. Its methods get coordinate and step params*/
 public interface MovableAnimal {
     SingleStepAnimal singleStepAnimal = new SingleStepAnimal();
     DoubleStepAnimal doubleStepAnimal = new DoubleStepAnimal();

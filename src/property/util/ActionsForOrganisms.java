@@ -5,10 +5,12 @@ import controller.CellInitializer;
 import controller.Coordinate;
 
 import java.util.concurrent.ThreadLocalRandom;
-
+    /** This class have move, feed and born methods*/
 public class ActionsForOrganisms {
     private CellInitializer cellInitializer = new CellInitializer();
 
+
+    /** In this method you can move Predators to new coordinates*/
     public void movePredators() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
@@ -21,7 +23,7 @@ public class ActionsForOrganisms {
             }
         }
     }
-
+    /** In this method you can move Herbivores to new coordinates*/
     public void moveHerbivores() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
@@ -34,7 +36,7 @@ public class ActionsForOrganisms {
             }
         }
     }
-
+    /** In this method Herbivores eat anything from same coordinate*/
     public void feedHerbivores() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
@@ -47,7 +49,7 @@ public class ActionsForOrganisms {
             }
         }
     }
-
+    /** In this method Predators eat anything from same coordinate*/
     public void feedPredators(){
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
@@ -61,6 +63,7 @@ public class ActionsForOrganisms {
         }
     }
 
+    /** In this method Predators borne in the same coordinate*/
     public void bornPredators(){
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
@@ -74,6 +77,7 @@ public class ActionsForOrganisms {
         }
     }
 
+    /** In this method Herbivores borne in the same coordinate*/
     public void bornHerbivores(){
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
