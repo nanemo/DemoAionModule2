@@ -31,14 +31,14 @@ public class Island {
         return CELLS[0].length;
     }
 
-    public Cell getCells(Coordinate coordinate) {
+    public synchronized Cell getCells(Coordinate coordinate) {
         if (!(cellIsNotNull(coordinate))) {
             CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = new Cell();
         }
         return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()];
     }
 
-    public void setCells(Coordinate coordinate, Cell cell) {
+    public synchronized void setCells(Coordinate coordinate, Cell cell) {
         CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = cell;
     }
 

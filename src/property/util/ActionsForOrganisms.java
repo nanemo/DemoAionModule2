@@ -37,7 +37,7 @@ public class ActionsForOrganisms {
         }
     }
     /** In this method Herbivores eat anything from same coordinate*/
-    public void feedHerbivores() {
+    public synchronized void feedHerbivores() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
                 if (!(cellInitializer.island.getCELLS()[i][j].getHerbivoreList().isEmpty())) {

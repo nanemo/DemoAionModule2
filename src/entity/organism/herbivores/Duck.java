@@ -38,6 +38,7 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
             String className = iteratorForHerbivores.next().getClass().getName();
+            System.out.println(className + " +++++++++++ ");
             if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();

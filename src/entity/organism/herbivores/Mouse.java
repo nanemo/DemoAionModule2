@@ -31,13 +31,13 @@ public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized <T extends Animal> void eat(Coordinate coordinate, T t) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
 
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
         while (iteratorForHerbivores.hasNext() && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
-            String className = iteratorForHerbivores.next().getClass().getName();
-            if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
+
+            if (Objects.equals(iteratorForHerbivores.next().getClass().getName(), Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(t);
                 iteratorForHerbivores.remove();
             } else {

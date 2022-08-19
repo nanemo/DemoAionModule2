@@ -3,7 +3,6 @@ package controller;
 import abstractions.Herbivore;
 import abstractions.Predator;
 import entity.organism.plants.Plant;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  *In this class program create the objects of animal and plant for adding in Lists.
  */
-@Getter
+
 public class Cell {
     private Coordinate coordinate;
     private List<Predator> predatorList;
@@ -35,5 +34,21 @@ public class Cell {
 
     public void printPlantList() {
         plantList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public synchronized List<Predator> getPredatorList() {
+        return predatorList;
+    }
+
+    public synchronized List<Herbivore> getHerbivoreList() {
+        return herbivoreList;
+    }
+
+    public synchronized List<Plant> getPlantList() {
+        return plantList;
     }
 }
