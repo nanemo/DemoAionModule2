@@ -32,27 +32,22 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
 
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && t.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
-            String className = iteratorForHerbivores.next().getClass().getName();
-            System.out.println(className + " +++++++++++ ");
-            if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
-                eatCaterpillar(t);
+        while (iteratorForHerbivores.hasNext() && this.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
+            if (Objects.equals(iteratorForHerbivores.next().getClass().getName(), Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
+                eatCaterpillar(this);
                 iteratorForHerbivores.remove();
+            } else if (currentCell.getPlantList() != null) {
+                while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
+                    eatPlant(this);
+                    currentCell.getPlantList().remove(0);
+                }
             } else {
-                dietAnimal(coordinate, t);
+                dietAnimal(coordinate, this);
             }
-        }
-        if (currentCell.getPlantList() != null) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
-                eatPlant(t);
-                currentCell.getPlantList().remove(0);
-            }
-        } else {
-            dietAnimal(coordinate, t);
         }
     }
 
@@ -65,8 +60,13 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
-        if (weightLoss(t) <= 0){
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
+        if (weightLoss(t) <= 0) {
+            Iterator<Herbivore> iterator = cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next() == t) {
+                    iterator.remove();
+                }
+            }
         }
     }
 

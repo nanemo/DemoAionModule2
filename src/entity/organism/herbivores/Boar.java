@@ -32,30 +32,30 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
 
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && t.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
+        while (iteratorForHerbivores.hasNext() && this.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
             String className = iteratorForHerbivores.next().getClass().getName();
             if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_MOUSE) {
-                eatMouse(t);
+                eatMouse(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_CATERPILLAR) {
-                eatCaterpillar(t);
+                eatCaterpillar(this);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(coordinate, t);
+                dietAnimal(coordinate, this);
             }
         }
 
         if (currentCell.getPlantList() != null) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
-                eatPlant(t);
+            while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
+                eatPlant(this);
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(coordinate, t);
+            dietAnimal(coordinate, this);
         }
     }
 

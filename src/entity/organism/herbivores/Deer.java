@@ -21,7 +21,7 @@ public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     private CellInitializer cellInitializer = new CellInitializer();
 
     @Override
-    public <T extends Animal> void move(Coordinate coordinate, T t) {
+    public synchronized <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, DeerProperties.STEP);
         if (deerCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
@@ -29,15 +29,15 @@ public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= DeerProperties.MAX_WEIGHT_DEER) {
-                eatPlant(t);
+            while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= DeerProperties.MAX_WEIGHT_DEER) {
+                eatPlant(this);
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(coordinate, t);
+            dietAnimal(coordinate, this);
         }
     }
 

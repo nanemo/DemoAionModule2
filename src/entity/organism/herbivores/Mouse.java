@@ -31,27 +31,21 @@ public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
     }
 
     @Override
-    public synchronized <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
-
+        while (iteratorForHerbivores.hasNext() && this.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
             if (Objects.equals(iteratorForHerbivores.next().getClass().getName(), Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
-                eatCaterpillar(t);
+                eatCaterpillar(this);
                 iteratorForHerbivores.remove();
+            } else if (currentCell.getPlantList() != null) {
+                while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
+                    eatPlant(this);
+                    currentCell.getPlantList().remove(0);
+                }
             } else {
-                dietAnimal(coordinate, t);
+                dietAnimal(coordinate, this);
             }
-        }
-
-        if (currentCell.getPlantList() != null) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= MouseProperties.MAX_WEIGHT_MOUSE) {
-                eatPlant(t);
-                currentCell.getPlantList().remove(0);
-            }
-        } else {
-            dietAnimal(coordinate, t);
         }
     }
 

@@ -29,15 +29,15 @@ public class Buffalo extends Herbivore implements MovableAnimal, EatableAnimal, 
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= BuffaloProperties.MAX_WEIGHT_BUFFALO) {
-                eatPlant(t);
+            while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= BuffaloProperties.MAX_WEIGHT_BUFFALO) {
+                eatPlant(this);
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(coordinate, t);
+            dietAnimal(coordinate, this);
         }
     }
 

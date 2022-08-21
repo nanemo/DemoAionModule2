@@ -46,7 +46,7 @@ public class Island {
         return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] != null;
     }
 
-    public Cell[][] getCELLS() {
+    public synchronized Cell[][] getCELLS() {
         return CELLS;
     }
 

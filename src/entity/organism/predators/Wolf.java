@@ -33,40 +33,40 @@ public class Wolf extends Predator implements MovableAnimal, EatableAnimal, Born
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized <T extends Animal> void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && t.getWeight() <= WolfProperties.MAX_WEIGHT_WOLF) {
+        while (iteratorForHerbivores.hasNext() && this.getWeight() <= WolfProperties.MAX_WEIGHT_WOLF) {
             String className = iteratorForHerbivores.next().getClass().getName();
             if (Objects.equals(className,Horse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_HORSE) {
-                eatHorse(t);
+                eatHorse(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Deer.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_DEER) {
-                eatDeer(t);
+                eatDeer(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_RABBIT) {
-                eatRabbit(t);
+                eatRabbit(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_MOUSE) {
-                eatMouse(t);
+                eatMouse(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Goat.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_GOAT) {
-                eatGoat(t);
+                eatGoat(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Sheep.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_SHEEP) {
-                eatSheep(t);
+                eatSheep(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Boar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_BOAR) {
-                eatBoar(t);
+                eatBoar(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Buffalo.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_BUFFALO) {
-                eatBuffalo(t);
+                eatBuffalo(this);
                 iteratorForHerbivores.remove();
             } else if (Objects.equals(className,Duck.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= WolfProperties.CHANCE_TO_EAT_DUCK) {
-                eatDuck(t);
+                eatDuck(this);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(coordinate, t);
+                dietAnimal(coordinate, this);
             }
         }
     }
@@ -81,7 +81,7 @@ public class Wolf extends Predator implements MovableAnimal, EatableAnimal, Born
 
     private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0){
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
+            cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(t);
         }
     }
 

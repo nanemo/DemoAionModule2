@@ -39,35 +39,14 @@ public class ScheduledThreadTaskManager {
             }, 0, TimeUnit.SECONDS);
         } else if (mode == Mode.FIXED_NO_OF_TIMES) {
             try {
-                multiThreadExecutorService.scheduleAtFixedRate(new FixedAnimalStatisticsExecutionRunnable(), 5, 5, TimeUnit.SECONDS);
-                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismMoveExecutionRunnable(), 6, 5, TimeUnit.SECONDS);
-                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismFeedExecutionRunnable(), 7, 5, TimeUnit.SECONDS);
-                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismBornExecutionRunnable(), 8, 5, TimeUnit.SECONDS);
+                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismMoveExecutionRunnable(), 3, 3, TimeUnit.SECONDS);
+                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismFeedExecutionRunnable(), 4, 3, TimeUnit.SECONDS);
+                multiThreadExecutorService.scheduleAtFixedRate(new FixedOrganismBornExecutionRunnable(), 5, 3, TimeUnit.SECONDS);
+                multiThreadExecutorService.scheduleAtFixedRate(new FixedAnimalStatisticsExecutionRunnable(), 10, 10, TimeUnit.SECONDS);
             }catch (Exception ex){
                 ex.printStackTrace();
             }
         }
-
-
-//        if (mode == Mode.INDEFINITE) {
-//            runNTimesIslandInitializer(taskForInitializeIsland, 1, 5, TimeUnit.SECONDS, scheduler);
-//        } else if (mode == Mode.FIXED_NO_OF_TIMES) {
-////            runNTimesStatisticsOrganism(taskForStatisticsOrganism, 5, 5, TimeUnit.SECONDS, scheduler);
-//            runNTimesOrganismAction(taskForActionAnimals, 5, 5, TimeUnit.SECONDS, scheduler);
-//        }
-//    }
-//
-//    private void runNTimesOrganismAction(Runnable task, int maxRunCount, long period, TimeUnit unit, ScheduledExecutorService executor) {
-//        new FixedOrganismActionExecutionRunnable(task, maxRunCount, reentrantLock).runNTimes(executor, period, unit);
-//    }
-//
-////    private void runNTimesStatisticsOrganism(Runnable task, int maxRunCount, long period, TimeUnit unit, ScheduledExecutorService executor) {
-////        new FixedAnimalStatisticsExecutionRunnable(task, maxRunCount, reentrantLock).runNTimes(executor, period, unit);
-////    }
-//
-//    public void runNTimesIslandInitializer(Runnable task, int maxRunCount, long period, TimeUnit unit, ScheduledExecutorService executor) {
-//        new FixedPrimaryIslandInitializerExecutionRunnable(task, maxRunCount, reentrantLock).runNTimes(executor, period, unit);
-//    }
-
     }
+
 }

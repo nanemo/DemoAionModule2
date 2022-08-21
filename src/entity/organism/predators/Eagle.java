@@ -35,32 +35,36 @@ public class Eagle extends Predator implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && t.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE) {
+        while (iteratorForHerbivores.hasNext() && this.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE) {
             String className = iteratorForHerbivores.next().getClass().getName();
-            if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_RABBIT) {
-                eatRabbit(t);
+            if (Objects.equals(className, Rabbit.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= EagleProperties.CHANCE_TO_EAT_RABBIT) {
+                eatRabbit(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className,Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_MOUSE) {
-                eatMouse(t);
+            } else if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= EagleProperties.CHANCE_TO_EAT_MOUSE) {
+                eatMouse(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className,Duck.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_DUCK) {
-                eatDuck(t);
+            } else if (Objects.equals(className, Duck.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= EagleProperties.CHANCE_TO_EAT_DUCK) {
+                eatDuck(this);
                 iteratorForHerbivores.remove();
+            } else if (currentCell.getPredatorList() != null) {
+                Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
+                while (iteratorForPredators.hasNext() && this.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE) {
+                    if (Objects.equals(iteratorForPredators.next().getClass().getName(), Fox.class.getName()) &&
+                        ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_FOX) {
+                        eatFox(this);
+                        iteratorForPredators.remove();
+                    } else {
+                        dietAnimal(coordinate);
+                    }
+                }
             } else {
-                dietAnimal(coordinate, t);
-            }
-        }
-        Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
-        while (iteratorForPredators.hasNext() && t.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE) {
-            String className = iteratorForPredators.next().getClass().getName();
-            if (Objects.equals(className,Fox.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_FOX) {
-                eatFox(t);
-                iteratorForPredators.remove();
-            } else {
-                dietAnimal(coordinate, t);
+                dietAnimal(coordinate);
             }
         }
     }
@@ -73,9 +77,9 @@ public class Eagle extends Predator implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
-    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
-        if (weightLoss(t) <= 0){
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
+    private void dietAnimal(Coordinate coordinate) {
+        if (weightLoss(this) <= 0) {
+            System.out.println(cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(this));
         }
     }
 

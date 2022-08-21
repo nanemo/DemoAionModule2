@@ -29,15 +29,15 @@ public class Goat extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public <T extends Animal> void eat(Coordinate coordinate, T t) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null ) {
-            while (!(currentCell.getPlantList().isEmpty()) && t.getWeight() <= GoatProperties.MAX_WEIGHT_GOAT) {
-                eatPlant(t);
+            while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= GoatProperties.MAX_WEIGHT_GOAT) {
+                eatPlant(this);
                 currentCell.getPlantList().remove(0);
             }
         } else {
-            dietAnimal(coordinate, t);
+            dietAnimal(coordinate, this);
         }
     }
 

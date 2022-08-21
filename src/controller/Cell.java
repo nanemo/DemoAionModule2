@@ -5,6 +5,7 @@ import abstractions.Predator;
 import entity.organism.plants.Plant;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,21 +20,9 @@ public class Cell {
 
     public Cell() {
         coordinate = new Coordinate();
-        predatorList = new ArrayList<>();
-        herbivoreList = new ArrayList<>();
-        plantList = new ArrayList<>();
-    }
-
-    public void printPredatorList() {
-        predatorList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
-    }
-
-    public void printHerbivoreList() {
-        predatorList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
-    }
-
-    public void printPlantList() {
-        plantList.forEach(s -> System.out.println(s.getClass() + " " + s.getWeight()));
+        predatorList = Collections.synchronizedList(new ArrayList<>());
+        herbivoreList = Collections.synchronizedList(new ArrayList<>());
+        plantList = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Coordinate getCoordinate() {

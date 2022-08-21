@@ -7,7 +7,6 @@ import entity.organism.plants.Plant;
 import factory.FactoryAnimal;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CellInitializer {
@@ -37,10 +36,6 @@ public class CellInitializer {
                 }
             }
         }
-    }
-
-    public List<Plant> getPlantListFromCell(Coordinate coordinate) {
-        return island.getCells(coordinate).getPlantList();
     }
 
     /** This method gets new coordinate, current coordinate and its object. It checks at first for Type of Object.
