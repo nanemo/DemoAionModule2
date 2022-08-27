@@ -21,6 +21,7 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         super(weight);
     }
 
+
     private CellInitializer cellInitializer = new CellInitializer();
 
     @Override

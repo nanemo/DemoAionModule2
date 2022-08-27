@@ -1,7 +1,6 @@
 package main;
 
 import controller.CellInitializer;
-import property.util.ActionsForOrganisms;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,7 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * This class creates tasks for Threads
  */
 public class ScheduledThreadTaskManager {
-    private static ActionsForOrganisms actionsForOrganisms = new ActionsForOrganisms();
     private ScheduledExecutorService multiThreadExecutorService = Executors.newScheduledThreadPool(3);
     private ScheduledExecutorService singleThreadScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     private CellInitializer cellInitializer = new CellInitializer();
