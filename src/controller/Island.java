@@ -50,5 +50,4 @@ public class Island {
         return CELLS;
     }
 
-
 }

@@ -25,7 +25,7 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
         super(weight);
     }
 
-    private CellInitializer cellInitializer = new CellInitializer();
+    private final CellInitializer cellInitializer = new CellInitializer();
 
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
@@ -36,9 +36,10 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
     }
 
     @Override
-    public synchronized <T extends Animal> void eat(Coordinate coordinate) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
+
         while (iteratorForHerbivores.hasNext() && this.getWeight() <= FoxProperties.MAX_WEIGHT_FOX) {
             String className = iteratorForHerbivores.next().getClass().getName();
             if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_RABBIT) {
@@ -67,6 +68,11 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
         }
     }
 
+    /** This method is same in other animal classes.
+     * We can take it to interface and do that method default for all implement classes.
+     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
+     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
+     * finish it.*/
     private synchronized void dietAnimal(Coordinate coordinate) {
         if (weightLoss(this) <= 0){
             System.out.println(cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(this));

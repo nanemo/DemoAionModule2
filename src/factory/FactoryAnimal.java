@@ -35,6 +35,25 @@ public class FactoryAnimal {
         listPlantFactory.add(new Plant(PlantProperties.MIN_WEIGHT_PLANT));
     }
 
+    public Animal getRandomAnimal(int animalNum){
+        return switch (animalNum) {
+            case 2 -> new Buffalo(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 3 -> new Caterpillar(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 4 -> new Deer(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 5 -> new Duck(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 6 -> new Goat(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 7 -> new Horse(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 8 -> new Mouse(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 9 -> new Rabbit(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 10 -> new Sheep(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 11 -> new Bear(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 12 -> new Boa(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 13 -> new Eagle(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 14 -> new Fox(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            case 15 -> new Wolf(BuffaloProperties.MIN_WEIGHT_BUFFALO);
+            default -> new Boar(BoarProperties.MIN_WEIGHT_BOAR);
+        };
+    }
     public synchronized static FactoryAnimal getFactoryAnimalInstance() {
         if (factoryAnimal == null) {
             factoryAnimal = new FactoryAnimal();

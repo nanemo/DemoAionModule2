@@ -22,70 +22,80 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         super(weight);
     }
 
-    private CellInitializer cellInitializer = new CellInitializer();
+    private final CellInitializer cellInitializer = new CellInitializer();
 
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, BearProperties.STEP);
+
         if (bearCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
         }
     }
 
     @Override
-    public synchronized  <T extends Animal> void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-        Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-        while (iteratorForHerbivores.hasNext() && this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
-            String className = iteratorForHerbivores.next().getClass().getName();
-            if (Objects.equals(className, Horse.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_HORSE) {
-                eatHorse(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Deer.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_DEER) {
-                eatDeer(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Rabbit.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_RABBIT) {
-                eatRabbit(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_MOUSE) {
-                eatMouse(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Goat.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_GOAT) {
-                eatGoat(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Sheep.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_SHEEP) {
-                eatSheep(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Boar.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOAR) {
-                eatBoar(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Buffalo.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_BUFFALO) {
-                eatBuffalo(this);
-                iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Duck.class.getName()) && ThreadLocalRandom.current().
-                    nextInt(101) <= BearProperties.CHANCE_TO_EAT_DUCK) {
-                eatDuck(this);
-                iteratorForHerbivores.remove();
-            }else if (currentCell.getPredatorList() != null) {
-                Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
-                while (iteratorForPredators.hasNext() && this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
-                    if (Objects.equals(iteratorForPredators.next().getClass().getName(), Boa.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOA) {
-                        eatBoa(this);
-                        iteratorForPredators.remove();
+
+        if (this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR && currentCell.getLock().tryLock()) {
+            try {
+                Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
+
+                while (iteratorForHerbivores.hasNext()) {
+                    String className = iteratorForHerbivores.next().getClass().getName();
+                    if (Objects.equals(className, Horse.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_HORSE) {
+                        eatHorse(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Deer.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_DEER) {
+                        eatDeer(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Rabbit.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_RABBIT) {
+                        eatRabbit(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_MOUSE) {
+                        eatMouse(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Goat.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_GOAT) {
+                        eatGoat(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Sheep.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_SHEEP) {
+                        eatSheep(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Boar.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOAR) {
+                        eatBoar(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Buffalo.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_BUFFALO) {
+                        eatBuffalo(this);
+                        iteratorForHerbivores.remove();
+                    } else if (Objects.equals(className, Duck.class.getName()) && ThreadLocalRandom.current().
+                            nextInt(101) <= BearProperties.CHANCE_TO_EAT_DUCK) {
+                        eatDuck(this);
+                        iteratorForHerbivores.remove();
                     } else {
                         dietAnimal(coordinate, this);
                     }
                 }
-            } else {
-                dietAnimal(coordinate, this);
+                if (currentCell.getPredatorList() != null) {
+                    Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
+                    while (iteratorForPredators.hasNext() && this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
+                        if (Objects.equals(iteratorForPredators.next().getClass().getName(), Boa.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOA) {
+                            eatBoa(this);
+                            iteratorForPredators.remove();
+                        } else {
+                            dietAnimal(coordinate, this);
+                        }
+                    }
+                }
+            } finally {
+                currentCell.getLock().unlock();
             }
         }
     }
@@ -98,6 +108,11 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         }
     }
 
+    /** This method is same in other animal classes.
+     * We can take it to interface and do that method default for all implement classes.
+     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
+     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
+     * finish it.*/
     private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0) {
             cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(t);
@@ -115,5 +130,4 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
 
         return bearCount < BearProperties.MAX_COUNT_BEAR;
     }
-
 }

@@ -17,7 +17,9 @@ public class CellInitializer {
         return island.getCells(coordinate);
     }
 
-    /** With this method program get coordinate an object for removing from cell*/
+    /**
+     * With this method program get coordinate an object for removing from cell
+     */
     public <T extends Animal> void deleteAnimalFromCells(Coordinate coordinate, T t) {
         if (animalIsHerbivore(t)) {
             Iterator<Herbivore> herbivoreIterator = island.getCells(coordinate).getHerbivoreList().iterator();
@@ -27,8 +29,9 @@ public class CellInitializer {
                     break;
                 }
             }
-        } else if (!(animalIsHerbivore(t))) {
+        } else {
             Iterator<Predator> predatorIterator = island.getCells(coordinate).getPredatorList().iterator();
+
             while (predatorIterator.hasNext()) {
                 if (predatorIterator.next().equals(t)) {
                     island.getCells(coordinate).getPredatorList().remove(t);
@@ -38,39 +41,48 @@ public class CellInitializer {
         }
     }
 
-    /** This method gets new coordinate, current coordinate and its object. It checks at first for Type of Object.
-     * After adding new animal in cell and remove the object.*/
+    /**
+     * This method gets new coordinate, current coordinate and its object. It checks at first for Type of Object.
+     * After adding new animal in cell and remove the object.
+     */
     public <T extends Animal> void moveAnimalToNewCoordinate(Coordinate newCoordinate, Coordinate oldCoordinate, T t) {
         if (animalIsHerbivore(t)) {
             island.getCells(newCoordinate).getHerbivoreList().add((Herbivore) t);
             deleteAnimalFromCells(oldCoordinate, t);
-        } else if (!(animalIsHerbivore(t))) {
+        } else {
             island.getCells(newCoordinate).getPredatorList().add((Predator) t);
             deleteAnimalFromCells(oldCoordinate, t);
         }
     }
 
-    /** In this method we initialize a new borne animal to cell*/
+    /**
+     * In this method we initialize a new borne animal to cell
+     */
     public <T extends Animal> void initializeBreadedAnimalToCell(Coordinate newCoordinate, T t) {
         if (this.animalIsHerbivore(t)) {
             island.getCells(newCoordinate).getHerbivoreList().add((Herbivore) t);
-        } else if (!(this.animalIsHerbivore(t))) {
+        } else {
             island.getCells(newCoordinate).getPredatorList().add((Predator) t);
         }
-
     }
 
-    /** In this method other methods check that object up for that is Herbivore or Predator object*/
+    /**
+     * In this method other methods check that object up for that is Herbivore or Predator object
+     */
     private <T extends Animal> boolean animalIsHerbivore(T t) {
         return t instanceof Herbivore;
     }
 
-    /** Method get coordinate and plan object for adding new object of plant*/
+    /**
+     * Method get coordinate and plan object for adding new object of plant
+     */
     public void initializeNewGrowPlantToCell(Coordinate coordinate, Plant newGrowPlant) {
         island.getCells(coordinate).getPlantList().add(newGrowPlant);
     }
 
-    /** Here we initialize 10 random animal objects and 100 plants into an island.*/
+    /**
+     * Here we initialize 10 random animal objects and 100 plants into an island.
+     */
     public void primaryInitializerOrganismToCell() {
         for (int i = 0; i < Island.getInstanceIsland().getCellCoordinateXLength(); i++) {
             for (int j = 0; j < Island.getInstanceIsland().getCellCoordinateYLength(); j++) {
@@ -78,8 +90,7 @@ public class CellInitializer {
                 island.setCells(coordinate, new Cell());
                 for (int k = 0; k < 10; k++) {
                     initializeBreadedAnimalToCell(coordinate,
-                            FactoryAnimal.getFactoryAnimalInstance().getListAnimalFactory().
-                                    get(ThreadLocalRandom.current().nextInt(0,15)));
+                            FactoryAnimal.getFactoryAnimalInstance().getRandomAnimal(ThreadLocalRandom.current().nextInt(0, 15)));
                 }
                 for (int k = 0; k < 50; k++) {
                     initializeNewGrowPlantToCell(coordinate,

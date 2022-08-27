@@ -17,16 +17,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, BornOrganism, DietAnimal {
 
+    private final CellInitializer cellInitializer = new CellInitializer();
+
     public Boar(Double weight) {
         super(weight);
     }
 
-
-    private CellInitializer cellInitializer = new CellInitializer();
-
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, BoarProperties.STEP);
+
         if (boarCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
         }
@@ -35,8 +35,8 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     @Override
     public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
+
         while (iteratorForHerbivores.hasNext() && this.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
             String className = iteratorForHerbivores.next().getClass().getName();
             if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_MOUSE) {
@@ -68,9 +68,14 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
+    /** This method is same in other animal classes.
+     * We can take it to interface and do that method default for all implement classes.
+     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
+     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
+     * finish it.*/
     private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0) {
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().removeIf(herbivore -> herbivore == t);
         }
     }
 

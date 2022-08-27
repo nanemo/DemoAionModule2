@@ -17,15 +17,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, BornOrganism {
 
+    private final CellInitializer cellInitializer = new CellInitializer();
+
     public Duck(double weight) {
         super(weight);
     }
 
-    private CellInitializer cellInitializer = new CellInitializer();
-
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, DuckProperties.STEP);
+
         if (duckCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
         }
@@ -33,15 +34,17 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
 
     @Override
     public synchronized void eat(Coordinate coordinate) {
-
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
+
         while (iteratorForHerbivores.hasNext() && this.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
-            if (Objects.equals(iteratorForHerbivores.next().getClass().getName(), Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
+            if (Objects.equals(iteratorForHerbivores.next().getClass().getName(), Caterpillar.class.getName()) &&
+                    ThreadLocalRandom.current().nextInt(101) <= MouseProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(this);
                 iteratorForHerbivores.remove();
             } else if (currentCell.getPlantList() != null) {
-                while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
+                while (!(currentCell.getPlantList().isEmpty()) &&
+                        this.getWeight() <= DuckProperties.MAX_WEIGHT_DUCK) {
                     eatPlant(this);
                     currentCell.getPlantList().remove(0);
                 }
@@ -59,14 +62,14 @@ public class Duck extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         }
     }
 
+    /** This method is same in other animal classes.
+     * We can take it to interface and do that method default for all implement classes.
+     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
+     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
+     * finish it.*/
     private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
         if (weightLoss(t) <= 0) {
-            Iterator<Herbivore> iterator = cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next() == t) {
-                    iterator.remove();
-                }
-            }
+            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().removeIf(herbivore -> herbivore == t);
         }
     }
 
