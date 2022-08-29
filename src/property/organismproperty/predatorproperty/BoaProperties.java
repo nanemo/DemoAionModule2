@@ -1,8 +1,6 @@
 package property.organismproperty.predatorproperty;
 
-import lombok.Getter;
-
-@Getter
+/**Class has only properties*/
 public class BoaProperties {
     public static final double MIN_WEIGHT_BOA = 15;
     public static final double MAX_COUNT_BOA = 30;

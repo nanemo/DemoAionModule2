@@ -1,8 +1,6 @@
 package property.organismproperty.predatorproperty;
 
-import lombok.Getter;
-
-@Getter
+/**Class has only properties*/
 public class EagleProperties  {
     public static final double MIN_WEIGHT_EAGLE = 6;
     public static final double MAX_COUNT_EAGLE = 20;

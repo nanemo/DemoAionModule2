@@ -9,7 +9,7 @@ import property.organismproperty.predatorproperty.FoxProperties;
 
 /** This interface has default methods for animals. His methods get coordinate and generics objects. */
 public interface EatableAnimal {
-    <T extends Animal> void eat(Coordinate coordinate);
+    void eat(Coordinate coordinate);
 
     default <T extends Animal> void eatMouse(T t) {
         t.setWeight(t.getWeight() + MouseProperties.MIN_WEIGHT_MOUSE);

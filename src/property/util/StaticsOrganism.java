@@ -35,14 +35,12 @@ public class StaticsOrganism {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 System.out.printf("In coordinate (%d; %d): \n", i, j);
-                cells[i][j].getHerbivoreList().forEach(w -> System.out.println(w.getClass().toString() + "'s weight is "
-                                                                               + (Math.round(w.getWeight() * 100) / 100.0)));
-
-                cells[i][j].getPredatorList().forEach(w -> System.out.println(w.getClass().toString() + "'s weight is "
-                                                                              + (Math.round(w.getWeight() * 100) / 100.0)));
-
+                cells[i][j].getHerbivoreList().forEach(w -> System.out.println(w.getClass().toString()
+                        + "'s weight is " + (Math.round(w.getWeight() * 100) / 100.0)));
+                cells[i][j].getPredatorList().forEach(w -> System.out.println(w.getClass().toString()
+                        + "'s weight is " + (Math.round(w.getWeight() * 100) / 100.0)));
             }
         }
-
     }
+
 }

@@ -42,20 +42,24 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
 
         while (iteratorForHerbivores.hasNext() && this.getWeight() <= FoxProperties.MAX_WEIGHT_FOX) {
             String className = iteratorForHerbivores.next().getClass().getName();
-            if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_RABBIT) {
+            if (Objects.equals(className,Rabbit.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= FoxProperties.CHANCE_TO_EAT_RABBIT) {
                 eatRabbit(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className,Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_MOUSE) {
+            } else if (Objects.equals(className,Mouse.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= FoxProperties.CHANCE_TO_EAT_MOUSE) {
                 eatMouse(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className,Duck.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_DUCK) {
+            } else if (Objects.equals(className,Duck.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= FoxProperties.CHANCE_TO_EAT_DUCK) {
                 eatDuck(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className,Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= FoxProperties.CHANCE_TO_EAT_CATERPILLAR) {
+            } else if (Objects.equals(className,Caterpillar.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= FoxProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(this);
                 iteratorForHerbivores.remove();
             } else {
-                dietAnimal(coordinate);
+                dietAnimal(coordinate, this);
             }
         }
     }
@@ -65,17 +69,6 @@ public class Fox extends Predator implements MovableAnimal, EatableAnimal, BornO
         if (ThreadLocalRandom.current().nextBoolean() && foxCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Fox(FoxProperties.MIN_WEIGHT_FOX);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
-        }
-    }
-
-    /** This method is same in other animal classes.
-     * We can take it to interface and do that method default for all implement classes.
-     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
-     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
-     * finish it.*/
-    private synchronized void dietAnimal(Coordinate coordinate) {
-        if (weightLoss(this) <= 0){
-            System.out.println(cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(this));
         }
     }
 

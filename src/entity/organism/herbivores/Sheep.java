@@ -29,7 +29,7 @@ public class Sheep extends Herbivore implements MovableAnimal, EatableAnimal, Bo
     }
 
     @Override
-    public synchronized <T extends Animal> void eat(Coordinate coordinate) {
+    public synchronized void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null) {
             while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= SheepProperties.MAX_WEIGHT_SHEEP) {
@@ -46,17 +46,6 @@ public class Sheep extends Herbivore implements MovableAnimal, EatableAnimal, Bo
         if (ThreadLocalRandom.current().nextBoolean() && sheepCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Sheep(SheepProperties.MIN_WEIGHT_SHEEP);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
-        }
-    }
-
-    /** This method is same in other animal classes.
-     * We can take it to interface and do that method default for all implement classes.
-     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
-     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
-     * finish it.*/
-    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
-        if (weightLoss(t) <= 0){
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().remove(t);
         }
     }
 

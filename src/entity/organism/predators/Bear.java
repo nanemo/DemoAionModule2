@@ -18,16 +18,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Bear extends Predator implements MovableAnimal, EatableAnimal, BornOrganism {
 
-    public Bear(Double weight) {
+    public Bear(double weight) {
         super(weight);
     }
 
-    private final CellInitializer cellInitializer = new CellInitializer();
+    private CellInitializer cellInitializer = new CellInitializer();
 
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, BearProperties.STEP);
-
         if (bearCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
         }
@@ -36,12 +35,10 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
     @Override
     public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-
         if (this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR && currentCell.getLock().tryLock()) {
             try {
                 Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-
-                while (iteratorForHerbivores.hasNext()) {
+                while (iteratorForHerbivores.hasNext() && this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
                     String className = iteratorForHerbivores.next().getClass().getName();
                     if (Objects.equals(className, Horse.class.getName()) && ThreadLocalRandom.current().
                             nextInt(101) <= BearProperties.CHANCE_TO_EAT_HORSE) {
@@ -86,7 +83,9 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
                 if (currentCell.getPredatorList() != null) {
                     Iterator<Predator> iteratorForPredators = currentCell.getPredatorList().iterator();
                     while (iteratorForPredators.hasNext() && this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR) {
-                        if (Objects.equals(iteratorForPredators.next().getClass().getName(), Boa.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BearProperties.CHANCE_TO_EAT_BOA) {
+                        if (Objects.equals(iteratorForPredators.next().getClass().getName(),
+                                Boa.class.getName()) && ThreadLocalRandom.current().nextInt(101) <=
+                                BearProperties.CHANCE_TO_EAT_BOA) {
                             eatBoa(this);
                             iteratorForPredators.remove();
                         } else {
@@ -108,17 +107,6 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
         }
     }
 
-    /** This method is same in other animal classes.
-     * We can take it to interface and do that method default for all implement classes.
-     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
-     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
-     * finish it.*/
-    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
-        if (weightLoss(t) <= 0) {
-            cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(t);
-        }
-    }
-
     private boolean bearCountIsNotFull(Coordinate coordinateForCount) {
         int bearCount = 0;
 
@@ -130,4 +118,5 @@ public class Bear extends Predator implements MovableAnimal, EatableAnimal, Born
 
         return bearCount < BearProperties.MAX_COUNT_BEAR;
     }
+
 }

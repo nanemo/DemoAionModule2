@@ -10,7 +10,7 @@ public class FixedOrganismFeedExecutionRunnable implements Runnable {
         try {
             actionsForOrganisms.feedHerbivores();
             actionsForOrganisms.feedPredators();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

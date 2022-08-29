@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *In this class program create the objects of animal and plant for adding in Lists.
+ * In class there is ReentrantLock class for locking Arrays.
  */
 
 public class Cell {

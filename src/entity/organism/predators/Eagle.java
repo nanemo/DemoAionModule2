@@ -9,7 +9,6 @@ import controller.Coordinate;
 import entity.organism.herbivores.Duck;
 import entity.organism.herbivores.Mouse;
 import entity.organism.herbivores.Rabbit;
-import property.organismproperty.predatorproperty.BearProperties;
 import property.organismproperty.predatorproperty.EagleProperties;
 import property.util.BornOrganism;
 import property.util.EatableAnimal;
@@ -22,16 +21,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Eagle extends Predator implements MovableAnimal, EatableAnimal, BornOrganism {
 
-    private final CellInitializer cellInitializer = new CellInitializer();
-
     public Eagle(double weight) {
         super(weight);
     }
 
+    private CellInitializer cellInitializer = new CellInitializer();
+
     @Override
     public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, EagleProperties.STEP);
-
         if (eagleCountIsNotFull(newCoordinates)) {
             cellInitializer.moveAnimalToNewCoordinate(newCoordinates, coordinate, t);
         }
@@ -40,11 +38,10 @@ public class Eagle extends Predator implements MovableAnimal, EatableAnimal, Bor
     @Override
     public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
-
-        if (this.getWeight() <= BearProperties.MAX_WEIGHT_BEAR && currentCell.getLock().tryLock()) {
+        if (this.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE && currentCell.getLock().tryLock()) {
             try {
                 Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
-                while (iteratorForHerbivores.hasNext()) {
+                while (iteratorForHerbivores.hasNext() && this.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE) {
                     String className = iteratorForHerbivores.next().getClass().getName();
                     if (Objects.equals(className, Rabbit.class.getName()) && ThreadLocalRandom.current().
                             nextInt(101) <= EagleProperties.CHANCE_TO_EAT_RABBIT) {
@@ -59,21 +56,23 @@ public class Eagle extends Predator implements MovableAnimal, EatableAnimal, Bor
                         eatDuck(this);
                         iteratorForHerbivores.remove();
                     } else {
-                        dietAnimal(coordinate);
+                        dietAnimal(coordinate, this);
                     }
                 }
 
                 if (currentCell.getPredatorList() != null) {
                     List<Predator> predators = currentCell.getPredatorList();
-                    for (int i = 0; i < predators.size(); i++) {
+                    for (int i = 0; i < predators.size(); i++){
                         Predator predator = predators.get(i);
-                        if (predator != null && Fox.class.getName().equals(predator.getClass().getName()) &&
-                                ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_FOX) {
+                        if (this.getWeight() <= EagleProperties.MAX_WEIGHT_EAGLE &&
+                                predator != null && Fox.class.getName().equals(predator.getClass().getName()) &&
+                                ThreadLocalRandom.current().nextInt(101) <= EagleProperties.CHANCE_TO_EAT_FOX){
                             eatFox(this);
                             predators.remove(predator);
                         } else {
-                            dietAnimal(coordinate);
+                            dietAnimal(coordinate, this);
                         }
+
                     }
                 }
             } finally {
@@ -87,17 +86,6 @@ public class Eagle extends Predator implements MovableAnimal, EatableAnimal, Bor
         if (ThreadLocalRandom.current().nextBoolean() && eagleCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Eagle(EagleProperties.MIN_WEIGHT_EAGLE);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
-        }
-    }
-
-    /** This method is same in other animal classes.
-     * We can take it to interface and do that method default for all implement classes.
-     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
-     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
-     * finish it.*/
-    private void dietAnimal(Coordinate coordinate) {
-        if (weightLoss(this) <= 0) {
-            System.out.println(cellInitializer.getCellByCoordinates(coordinate).getPredatorList().remove(this));
         }
     }
 

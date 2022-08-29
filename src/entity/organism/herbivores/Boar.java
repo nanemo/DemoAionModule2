@@ -19,7 +19,7 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
 
     private final CellInitializer cellInitializer = new CellInitializer();
 
-    public Boar(Double weight) {
+    public Boar(double weight) {
         super(weight);
     }
 
@@ -39,10 +39,12 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
 
         while (iteratorForHerbivores.hasNext() && this.getWeight() <= BoarProperties.MAX_WEIGHT_BOAR) {
             String className = iteratorForHerbivores.next().getClass().getName();
-            if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_MOUSE) {
+            if (Objects.equals(className, Mouse.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BoarProperties.CHANCE_TO_EAT_MOUSE) {
                 eatMouse(this);
                 iteratorForHerbivores.remove();
-            } else if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().nextInt(101) <= BoarProperties.CHANCE_TO_EAT_CATERPILLAR) {
+            } else if (Objects.equals(className, Caterpillar.class.getName()) && ThreadLocalRandom.current().
+                    nextInt(101) <= BoarProperties.CHANCE_TO_EAT_CATERPILLAR) {
                 eatCaterpillar(this);
                 iteratorForHerbivores.remove();
             } else {
@@ -65,17 +67,6 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
         if (ThreadLocalRandom.current().nextBoolean() && boarCountIsNotFull(coordinate)) {
             Animal newBreadedAnimal = new Boar(BoarProperties.MIN_WEIGHT_BOAR);
             cellInitializer.initializeBreadedAnimalToCell(coordinate, newBreadedAnimal);
-        }
-    }
-
-    /** This method is same in other animal classes.
-     * We can take it to interface and do that method default for all implement classes.
-     * But for now we configured the island_model with threads in a pool. I don't want to take this method because
-     * might be we will lose control on ThreadTaskManager. But further i will take a look on this application and
-     * finish it.*/
-    private <T extends Animal> void dietAnimal(Coordinate coordinate, T t) {
-        if (weightLoss(t) <= 0) {
-            cellInitializer.getCellByCoordinates(coordinate).getHerbivoreList().removeIf(herbivore -> herbivore == t);
         }
     }
 

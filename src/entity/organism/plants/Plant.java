@@ -7,12 +7,10 @@ import lombok.Setter;
 import property.organismproperty.plantproperty.PlantProperties;
 import property.util.BornOrganism;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 @Getter
 @Setter
 public class Plant implements BornOrganism {
-    private Double weight;
+    private double weight;
 
     public Plant(Double weight) {
         this.weight = weight;
@@ -22,9 +20,8 @@ public class Plant implements BornOrganism {
 
     @Override
     public void bornOrganism(Coordinate coordinate) {
-        if (ThreadLocalRandom.current().nextBoolean() && plantCountIsNotFull(coordinate)) {
-            Plant newGrowPlant = new Plant(PlantProperties.MIN_WEIGHT_PLANT);
-            cellInitializer.initializeNewGrowPlantToCell(coordinate, newGrowPlant);
+        if (plantCountIsNotFull(coordinate)) {
+            cellInitializer.initializeNewGrowPlantToCell(coordinate, this);
         }
     }
 

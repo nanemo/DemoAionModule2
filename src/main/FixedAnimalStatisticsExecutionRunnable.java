@@ -3,7 +3,7 @@ package main;
 import property.util.StaticsOrganism;
 
 /**
- * This class is Runnable and has run method.
+ * This class is Runnable and get the statics about animals and plants.
  */
 public class FixedAnimalStatisticsExecutionRunnable implements Runnable {
 
