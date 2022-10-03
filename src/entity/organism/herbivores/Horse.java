@@ -29,7 +29,7 @@ public class Horse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null) {
             while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= HorseProperties.MAX_WEIGHT_HORSE) {

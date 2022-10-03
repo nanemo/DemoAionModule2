@@ -31,7 +31,7 @@ public class Mouse extends Herbivore implements MovableAnimal, EatableAnimal, Bo
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
 

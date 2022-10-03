@@ -34,7 +34,7 @@ public class Wolf extends Predator implements MovableAnimal, EatableAnimal, Born
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
 

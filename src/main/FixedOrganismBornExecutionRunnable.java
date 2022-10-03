@@ -9,6 +9,8 @@ public class FixedOrganismBornExecutionRunnable implements Runnable {
     @Override
     public void run() {
         try {
+            Thread.currentThread().setPriority(10);
+            System.out.println(Thread.currentThread().getName() + " -------- " + Thread.currentThread().getPriority());
             actionsForOrganisms.bornHerbivores();
             actionsForOrganisms.bornPredators();
             actionsForOrganisms.growPlants();

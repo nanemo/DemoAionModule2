@@ -30,7 +30,7 @@ public class Buffalo extends Herbivore implements MovableAnimal, EatableAnimal, 
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
 
         if (currentCell.getPlantList() != null) {

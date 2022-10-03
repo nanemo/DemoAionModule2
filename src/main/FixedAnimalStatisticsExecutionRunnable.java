@@ -10,6 +10,8 @@ public class FixedAnimalStatisticsExecutionRunnable implements Runnable {
     @Override
     public void run() {
         try {
+            Thread.currentThread().setPriority(10);
+            System.out.println(Thread.currentThread().getName() + " -------- " + Thread.currentThread().getPriority());
             StaticsOrganism.staticsForCountAnimalsAndPlants();
             StaticsOrganism.staticsAboutWeightAnimals();
         } catch (Exception ex) {

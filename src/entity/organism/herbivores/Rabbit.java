@@ -29,7 +29,7 @@ public class Rabbit extends Herbivore implements MovableAnimal, EatableAnimal, B
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         if (currentCell.getPlantList() != null) {
             while (!(currentCell.getPlantList().isEmpty()) && this.getWeight() <= RabbitProperties.MAX_WEIGHT_RABBIT) {

@@ -33,7 +33,7 @@ public class Boar extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     }
 
     @Override
-    public synchronized void eat(Coordinate coordinate) {
+    public void eat(Coordinate coordinate) {
         Cell currentCell = cellInitializer.island.getCells(coordinate);
         Iterator<Herbivore> iteratorForHerbivores = currentCell.getHerbivoreList().iterator();
 
