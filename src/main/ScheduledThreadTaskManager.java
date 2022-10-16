@@ -33,8 +33,24 @@ public class ScheduledThreadTaskManager {
             }, 0, TimeUnit.SECONDS);
         } else if (mode == Mode.FIXED_NO_OF_TIMES) {
             try {
+//                FixedOrganismBornExecutionRunnable b = new FixedOrganismBornExecutionRunnable();
+//                FixedOrganismFeedExecutionRunnable c = new FixedOrganismFeedExecutionRunnable();
+//                FixedOrganismMoveExecutionRunnable d = new FixedOrganismMoveExecutionRunnable();
+//                FixedAnimalStatisticsExecutionRunnable a = new FixedAnimalStatisticsExecutionRunnable();
+//
+//                Thread thread2 = new Thread(b);
+//                Thread thread3 = new Thread(c);
+//                Thread thread4 = new Thread(d);
+//                Thread thread1 = new Thread(a);
+//                thread2.start();
+//                thread3.start();
+//                thread4.start();
+//                thread1.start();
+
+
                 ScheduledExecutorService multiThreadExecutorService = Executors.newScheduledThreadPool(3);
-                System.out.println(Thread.currentThread().getName() + " -------- " + Thread.currentThread().getPriority());                 multiThreadExecutorService.scheduleAtFixedRate(
+                System.out.println(Thread.currentThread().getName() + " -------- " + Thread.currentThread().getPriority());
+                multiThreadExecutorService.scheduleAtFixedRate(
                         new FixedOrganismBornExecutionRunnable(), 1, 3, TimeUnit.SECONDS);
                 multiThreadExecutorService.scheduleAtFixedRate(
                         new FixedOrganismMoveExecutionRunnable(), 2, 3, TimeUnit.SECONDS);

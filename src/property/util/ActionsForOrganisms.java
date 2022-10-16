@@ -54,7 +54,7 @@ public class ActionsForOrganisms {
     /**
      * In this method Herbivores eat anything from same coordinate
      */
-    public synchronized void feedHerbivores() {
+    public void feedHerbivores() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
                 if (!(cellInitializer.island.getCELLS()[i][j].getHerbivoreList().isEmpty())) {
@@ -72,7 +72,7 @@ public class ActionsForOrganisms {
     /**
      * In this method Predators eat anything from same coordinate
      */
-    public synchronized void feedPredators() {
+    public void feedPredators() {
         for (int i = 0; i < cellInitializer.island.getCellCoordinateXLength(); i++) {
             for (int j = 0; j < cellInitializer.island.getCellCoordinateYLength(); j++) {
                 if (!(cellInitializer.island.getCELLS()[i][j].getPredatorList().isEmpty())) {

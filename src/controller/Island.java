@@ -31,14 +31,14 @@ public class Island {
         return CELLS[0].length;
     }
 
-    public synchronized Cell getCells(Coordinate coordinate) {
+    public Cell getCells(Coordinate coordinate) {
         if (!(cellIsNotNull(coordinate))) {
             CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = new Cell();
         }
         return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()];
     }
 
-    public synchronized void setCells(Coordinate coordinate, Cell cell) {
+    public void setCells(Coordinate coordinate, Cell cell) {
         CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] = cell;
     }
 
@@ -46,7 +46,7 @@ public class Island {
         return CELLS[coordinate.getCoordinateX()][coordinate.getCoordinateY()] != null;
     }
 
-    public synchronized Cell[][] getCELLS() {
+    public Cell[][] getCELLS() {
         return CELLS;
     }
 

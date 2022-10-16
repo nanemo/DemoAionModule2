@@ -21,7 +21,7 @@ public class Deer extends Herbivore implements MovableAnimal, EatableAnimal, Bor
     private final CellInitializer cellInitializer = new CellInitializer();
 
     @Override
-    public synchronized <T extends Animal> void move(Coordinate coordinate, T t) {
+    public <T extends Animal> void move(Coordinate coordinate, T t) {
         Coordinate newCoordinates = defineNewDirection(coordinate, DeerProperties.STEP);
 
         if (deerCountIsNotFull(newCoordinates)) {

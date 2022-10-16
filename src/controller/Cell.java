@@ -5,7 +5,6 @@ import abstractions.Predator;
 import entity.organism.plants.Plant;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,9 +23,9 @@ public class Cell {
 
     public Cell() {
         coordinate = new Coordinate();
-        predatorList = Collections.synchronizedList(new ArrayList<>());
-        herbivoreList = Collections.synchronizedList(new ArrayList<>());
-        plantList = Collections.synchronizedList(new ArrayList<>());
+        predatorList = new ArrayList<>();
+        herbivoreList = new ArrayList<>();
+        plantList = new ArrayList<>();
     }
     public Lock getLock() {
         return lock;
@@ -35,15 +34,15 @@ public class Cell {
         return coordinate;
     }
 
-    public synchronized List<Predator> getPredatorList() {
+    public List<Predator> getPredatorList() {
         return predatorList;
     }
 
-    public synchronized List<Herbivore> getHerbivoreList() {
+    public List<Herbivore> getHerbivoreList() {
         return herbivoreList;
     }
 
-    public synchronized List<Plant> getPlantList() {
+    public List<Plant> getPlantList() {
         return plantList;
     }
 }
